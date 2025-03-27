@@ -35,6 +35,22 @@ export default async function handler(req, res) {
                 text: '👋 Привет! Ты в списке разрешённых!',
             }),
         });
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: `💳 Проплата: Wild Hosting\nСумма: €15\nID: 203`,
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: '✅ Оплатил', callback_data: 'pay_203' },
+                            { text: '❌ Отменить', callback_data: 'cancel_203' },
+                        ],
+                    ],
+                },
+            }),
+        })
     }
 
     // 🟡 Обработка кнопок (callback_query)
