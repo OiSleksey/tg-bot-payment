@@ -1,18 +1,25 @@
 // === 📦 Google Sheets Trigger Endpoint ===
 import {allowedUsers} from "../access/index.js";
+import axios from 'axios';
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 
 const sendMessageTelegram = async (res) => {
     try{
-        for(const chatId of allowedUsers) {
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: `📬 Получен запрос с Google Apps Script в ${new Date().toLocaleString('ru-RU')}`
-                })
+        // for(const chatId of allowedUsers) {
+        //     await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //             chat_id: chatId,
+        //             text: `📬 Получен запрос с Google Apps Script в ${new Date().toLocaleString('ru-RU')}`
+        //         })
+        //     });
+        // }
+        for (const chatId of allowedUsers) {
+            await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                chat_id: chatId,
+                text: `📬 Получен запрос с Google Apps Script в ${new Date().toLocaleString('ru-RU')}`,
             });
         }
     } catch (e){
