@@ -1,5 +1,5 @@
 // === 🤖 Telegram Handler ===
-
+import {allowedUsers} from "../access/index.js";
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 
 async function sendTelegramMessage(chatId, text, replyMarkup) {
@@ -39,7 +39,6 @@ export default async function telegramHandler(req, res) {
     console.log('🔥 Webhook вызван в', new Date().toLocaleString('ru-RU'));
 
     const body = req.body;
-    const allowedUsers = [6602497931];
     const userId = body?.message?.from?.id || body?.callback_query?.from?.id;
     const chatId = body?.message?.chat?.id || body?.callback_query?.message?.chat?.id;
 
