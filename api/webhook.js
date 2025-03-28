@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     const path = req.url;
 console.log(path);
 
-    if (path === '/api/webhook') {
+    if (path === '/webhook') {
         return telegramHandler(req, res);
     }
 
-    if (path === '/api/check') {
+    if (path === '/check') {
         return googleHandler(req, res);
     }
 
