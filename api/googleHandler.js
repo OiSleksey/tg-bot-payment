@@ -5,7 +5,7 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 
 const sendMessageTelegram = async (res) => {
     try{
-        for(const chatId in allowedUsers) {
+        for(const chatId of allowedUsers) {
             await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
