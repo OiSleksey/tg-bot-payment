@@ -1,7 +1,7 @@
 // === 🤖 Telegram Webhook Handler ===
 
-import telegramHandler from '@/utils/telegramHandler';
-import googleHandler from '@/utils/googleHandler';
+import telegramHandler from '../utils/telegramHandler.js';
+import googleHandler from '../utils/googleHandler';
 
 export default async function handler(req, res) {
     const path = req.url;
