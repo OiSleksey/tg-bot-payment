@@ -19,7 +19,7 @@ const sendMessageTelegram = async (res) => {
         console.error(e);
     }
 
-    return res.status(200).send('✅ Вызов с Google Apps Script получен');
+    // return res.status(200).send('✅ Вызов с Google Apps Script получен');
 }
 
 
