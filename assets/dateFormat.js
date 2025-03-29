@@ -29,6 +29,10 @@ export const getTimeInUkraine = () => {
   return moment().tz('Europe/Kyiv').format('DD.MM.YYYY, HH:mm:ss')
 }
 
+export const delaySeconds = (second) => {
+  return new Promise((resolve) => setTimeout(resolve, getValidateNumber(second) * 1000))
+}
+
 const getClosestValidDate = (dateStr) => {
   let date = moment(dateStr)
 

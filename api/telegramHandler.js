@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { allowedUsers } from '../access/index.js'
-import { getTimeInUkraine } from '../assets/dateFormat.js'
+import { delaySeconds, getTimeInUkraine } from '../assets/dateFormat.js'
 import { setInitialDataSheet } from './googleHandler.js'
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
@@ -66,10 +66,13 @@ async function handleInitialCommand(user) {
         chatId,
         `**${user}** Использовал команду "/initial" что бы устоновить изначальные данные по датам проплаты!`,
       )
+      await delaySeconds(1)
     }
     await setInitialDataSheet()
+    await delaySeconds(1)
     for (const chatId of allowedUsers) {
       await sendTelegramMessage(chatId, `Изначальная установка таблицы прошла успешно`)
+      await delaySeconds(1)
     }
     //
     // await sendTelegramMessage(chatId, `💳 Проплата: Wild Hosting\nСумма: €15\nID: 203`, {
