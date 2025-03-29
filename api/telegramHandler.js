@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { allowedUsers } from '../access/index.js'
 import { getTimeInUkraine } from '../assets/dateFormat.js'
+import { setInitialDataSheet } from './googleHandler.js'
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 
@@ -42,7 +43,7 @@ export async function handleCallbackQuery(callbackQuery, chatId) {
 
 async function handleStartCommand(chatId, user) {
   try {
-    await sendTelegramMessage(chatId, `👋 Привет, ${user}! Ты в списке разрешённых!`)
+    await sendTelegramMessage(chatId, `👋 Привет, **${user}**! Ты в списке разрешённых!`)
 
     await sendTelegramMessage(chatId, `💳 Проплата: Wild Hosting\nСумма: €15\nID: 203`, {
       inline_keyboard: [
@@ -57,15 +58,18 @@ async function handleStartCommand(chatId, user) {
   }
 }
 
-async function handleInitialCommand(user) {
+async function handleInitialCommand(chatId, user) {
   try {
-    for (const chatId of allowedUsers) {
+    for (const chatIdUser of allowedUsers) {
       await sendTelegramMessage(
-        chatId,
-        `${user} Использовал команду "/initial" что бы устоновить изначальные данные по даттам проплаты!`,
+        chatIdUser,
+        `**${user}** Использовал команду "/initial" что бы устоновить изначальные данные по даттам проплаты!`,
       )
     }
-
+    await setInitialDataSheet()
+    for (const chatIdUser of allowedUsers) {
+      await sendTelegramMessage(chatIdUser, `Изначальная установка таблицы прошла успешно`)
+    }
     //
     // await sendTelegramMessage(chatId, `💳 Проплата: Wild Hosting\nСумма: €15\nID: 203`, {
     //   inline_keyboard: [
@@ -76,6 +80,9 @@ async function handleInitialCommand(user) {
     //   ],
     // })
   } catch (error) {
+    for (const chatIdUser of allowedUsers) {
+      await sendTelegramMessage(chatIdUser, `❌ Ошибка в изначальная установку таблицы`)
+    }
     console.error('❌ Ошибка в команде /initial:', error.message)
   }
 }

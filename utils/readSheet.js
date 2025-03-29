@@ -10,10 +10,11 @@ import {
 } from '../assets/valaidateData.js'
 import { spreadsheetId, range } from '../access/index.js'
 import XLSX from 'xlsx'
+const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
 
 // console.log(JSON.parse(readFileSync('./google-credentials.json', 'utf8')))
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(readFileSync('./google-credentials.json', 'utf8')),
+  credentials: JSON.parse(GOOGLE_CREDENTIALS),
   scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
 })
 
@@ -54,10 +55,9 @@ const getSheetDataArray = (rows) => {
   })
 }
 
-async function readSheet() {
+export const readSheet = async () => {
   const client = await auth.getClient()
-  // console.log(client)
-  // return null
+
   const sheets = google.sheets({ version: 'v4', auth: client })
 
   const res = await sheets.spreadsheets.values.get({
@@ -76,6 +76,6 @@ async function readSheet() {
   return data
 }
 
-readSheet()
-  .then((res) => console.log(res))
-  .catch(console.error)
+// readSheet()
+//   .then((res) => console.log(res))
+//   .catch(console.error)

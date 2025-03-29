@@ -2,8 +2,10 @@ import { google } from 'googleapis'
 import { readFileSync } from 'fs'
 import { spreadsheetId, range } from '../access/index.js'
 
+const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
+
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(readFileSync('./google-credentials.json', 'utf8')),
+  credentials: JSON.parse(GOOGLE_CREDENTIALS),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 

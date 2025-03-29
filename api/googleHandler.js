@@ -2,6 +2,9 @@
 import { allowedUsers } from '../access/index.js'
 import axios from 'axios'
 import { getTimeInUkraine } from '../assets/dateFormat.js'
+import { getInitialDataForSheet } from '../assets/filteredData.js'
+import { updateMultipleSpecificCells } from './updateCellSheet.js'
+import { readSheet } from '../utils/readSheet.js'
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 
@@ -43,4 +46,10 @@ export default async function googleHandler(req, res) {
     console.error('❌ Ошибка обработки Google запроса:', err)
     res.status(500).json({ error: 'Ошибка сервера' })
   }
+}
+
+export const setInitialDataSheet = async () => {
+  await readSheet()
+  const dataRequest = getInitialDataForSheet()
+  await updateMultipleSpecificCells(dataRequest)
 }
