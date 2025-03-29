@@ -49,7 +49,7 @@ export default async function googleHandler(req, res) {
 }
 
 export const setInitialDataSheet = async () => {
-  await readSheet()
-  const dataRequest = getInitialDataForSheet()
+  const data = await readSheet()
+  const dataRequest = getInitialDataForSheet(data)
   await updateMultipleSpecificCells(dataRequest)
 }

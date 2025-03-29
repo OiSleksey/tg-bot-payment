@@ -1,4 +1,4 @@
-import { sheetData } from '../mock/sheet-data.js'
+// import { sheetData } from '../mock/sheet-data.js'
 import { getValidateArray, getValidateNumber, getValidateString } from './valaidateData.js'
 import {
   DAYS_UNTIL_PAYMENT_KEY,
@@ -48,7 +48,7 @@ const getDataByAllDate = (data) => {
   })
 }
 
-const dataByAllDate = getDataByAllDate(sheetData)
+// const dataByAllDate = getDataByAllDate(sheetData)
 //
 // console.log(dataByAllDate)
 // console.log(getTimeInUkraine())
@@ -65,8 +65,8 @@ const getFilterDataByRange = (data) => {
   return data.filter((item) => item?.[RANGE_KEY])
 }
 
-export const getInitialDataForSheet = () => {
-  const dataByAllDate = getDataByAllDate(sheetData)
+export const getInitialDataForSheet = (data) => {
+  const dataByAllDate = getDataByAllDate(data)
   const nextDatePaymentArray = dataByAllDate.map((item) => ({
     [RANGE_KEY]: getRangeCell(item, NEXT_DATE_PAYMENT_KEY),
     [VALUES_KEY]: [[getDisplayDateWithDay(item?.[NEXT_DATE_PAYMENT_KEY])]],
