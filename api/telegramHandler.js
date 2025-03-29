@@ -64,7 +64,7 @@ async function handleInitialCommand(user) {
     for (const chatId of allowedUsers) {
       await sendTelegramMessage(
         chatId,
-        `**${user}** Использовал команду "/initial" что бы устоновить изначальные данные по даттам проплаты!`,
+        `**${user}** Использовал команду "/initial" что бы устоновить изначальные данные по датам проплаты!`,
       )
     }
     await setInitialDataSheet()
@@ -82,7 +82,7 @@ async function handleInitialCommand(user) {
     // })
   } catch (error) {
     for (const chatId of allowedUsers) {
-      await sendTelegramMessage(chatId, `❌ Ошибка в изначальная установку таблицы`)
+      await sendTelegramMessage(chatId, `❌ Ошибка в изначальной установки таблицы`)
     }
     console.error('❌ Ошибка в команде /initial:', error.message)
   }
@@ -101,9 +101,7 @@ async function isAuthorizedUser(userId, chatId, userName) {
 }
 
 export default async function telegramHandler(req, res) {
-  console.log('🔥 Webhook вызван в', new Date().toLocaleString('ru-RU'))
-  console.log('TELEGRAM_TOKEN', TELEGRAM_TOKEN)
-  console.log('GOOGLE_CREDENTIALS', GOOGLE_CREDENTIALS)
+  console.log('🔥 Webhook вызван в', getTimeInUkraine())
   try {
     const body = req.body
     const userId = body?.message?.from?.id || body?.callback_query?.from?.id

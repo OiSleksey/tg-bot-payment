@@ -14,6 +14,7 @@ import {
   ROW_KEY,
   SHEET_META_KEY,
   COLS_KEY,
+  NAME_KEY,
 } from '../constants/index.js'
 import { getNextPayment, getTimeInUkraine, getDisplayDateWithDay } from './dateFormat.js'
 
@@ -36,6 +37,12 @@ const getDataByAllDate = (data) => {
       nextDateRequest,
       lastDatePayment,
     } = getNextPayment(item)
+    // console.log('nextDatePayment ', item[NAME_KEY])
+    // console.log('nextDatePayment ', nextDatePayment)
+    // console.log('daysUntilPayment ', daysUntilPayment)
+    // console.log('nextDateRequest ', nextDateRequest)
+    // console.log('lastDatePayment ', lastDatePayment)
+
     return {
       ...item,
       [IS_PENDING_KEY]: '',

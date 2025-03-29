@@ -32,10 +32,11 @@ export const getTimeInUkraine = () => {
 const getClosestValidDate = (dateStr) => {
   let date = moment(dateStr)
 
+  // console.log('START ', dateStr)
   while (!dayPayment.includes(date.day())) {
     date = date.subtract(1, 'day')
   }
-
+  // console.log('END ', date.format())
   return date.format()
 }
 
@@ -214,5 +215,5 @@ export const getNextPayment = (data, isRepeat = false) => {
 
 export const getDisplayDateWithDay = (date) => {
   if (!date) return '-'
-  return moment().tz('Europe/Kyiv').format('DD.MM.YYYY, dddd')
+  return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY, dddd')
 }
