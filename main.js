@@ -1,6 +1,7 @@
 import { getInitialDataForSheet } from './assets/filteredData.js'
 // import { updateMultipleSpecificCells } from './api/updateCellSheet.js'
 import { sheetData } from './mock/sheet-data.js'
+import { getLastUpdateDate } from './assets/dateFormat.js'
 
 const setInitialDataSheet = () => {
   console.log('asdasd')
@@ -13,4 +14,4 @@ const setInitialDataSheet = () => {
   //   .catch((err) => console.error(err))
 }
 
-setInitialDataSheet()
+// console.log(getLastUpdateDate('22-03-2024'))

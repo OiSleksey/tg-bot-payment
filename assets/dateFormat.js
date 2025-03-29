@@ -188,7 +188,7 @@ const getIsEveryMonth = (data, payRepeat) => {
   }
 }
 
-const getLastUpdateDate = (date) => {
+export const getLastUpdateDate = (date) => {
   if (!date) return null
 
   const formats = [
@@ -209,7 +209,7 @@ const getLastUpdateDate = (date) => {
 
   const parsed = moment(date, formats, true)
 
-  return parsed.isValid() ? parsed.format('YYYY-MM-DD') : null
+  return parsed.isValid() ? parsed.format() : null
 }
 
 export const getNextPayment = (data, isRepeat = false) => {
