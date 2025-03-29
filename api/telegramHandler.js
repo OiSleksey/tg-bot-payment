@@ -76,7 +76,7 @@ async function handleInitialCommand(user) {
     //   ],
     // })
   } catch (error) {
-    console.error('❌ Ошибка в команде /start:', error.message)
+    console.error('❌ Ошибка в команде /initial:', error.message)
   }
 }
 
