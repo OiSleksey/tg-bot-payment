@@ -188,13 +188,37 @@ const getIsEveryMonth = (data, payRepeat) => {
   }
 }
 
+const getLastUpdateDate = (date) => {
+  if (!date) return null
+
+  const formats = [
+    'DD-MM-YYYY',
+    'DD.MM.YYYY',
+    'DD-MM-YY',
+    'DD.MM.YY',
+    'YYYY-MM-DD',
+    'YYYY.MM.DD',
+    'D-M-YYYY',
+    'D.M.YYYY',
+    'D-M-YY',
+    'D.M.YY',
+    'DD/MM/YYYY',
+    'DD/MM/YY',
+    'YYYY/MM/DD',
+  ]
+
+  const parsed = moment(date, formats, true)
+
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD') : null
+}
+
 export const getNextPayment = (data, isRepeat = false) => {
   const payRepeat = getValidateString(data?.[PAY_REPEAT_KEY]).toLowerCase().trim()
 
   const everyYear = getIsEveryYear(data, payRepeat)
   const everyMonth = getIsEveryMonth(data, payRepeat)
 
-  const lastDatePayment = moment(data?.[LAST_DATE_PAYMENT_KEY], 'dd-mm-yyyy').format()
+  const lastDatePayment = getLastUpdateDate(data?.[LAST_DATE_PAYMENT_KEY])
   if (!everyYear && !everyMonth) return 'Ничего не выбрано'
 
   if (!lastDatePayment) return 'Не указана дата начала оплаты'
