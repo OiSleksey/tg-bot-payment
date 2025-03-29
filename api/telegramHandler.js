@@ -61,15 +61,15 @@ async function handleStartCommand(chatId, user) {
 
 async function handleInitialCommand(user) {
   try {
-    for (const chatIdUser of allowedUsers) {
+    for (const chatId of allowedUsers) {
       await sendTelegramMessage(
-        chatIdUser,
+        chatId,
         `**${user}** Использовал команду "/initial" что бы устоновить изначальные данные по даттам проплаты!`,
       )
     }
     await setInitialDataSheet()
-    for (const chatIdUser of allowedUsers) {
-      await sendTelegramMessage(chatIdUser, `Изначальная установка таблицы прошла успешно`)
+    for (const chatId of allowedUsers) {
+      await sendTelegramMessage(chatId, `Изначальная установка таблицы прошла успешно`)
     }
     //
     // await sendTelegramMessage(chatId, `💳 Проплата: Wild Hosting\nСумма: €15\nID: 203`, {
@@ -81,8 +81,8 @@ async function handleInitialCommand(user) {
     //   ],
     // })
   } catch (error) {
-    for (const chatIdUser of allowedUsers) {
-      await sendTelegramMessage(chatIdUser, `❌ Ошибка в изначальная установку таблицы`)
+    for (const chatId of allowedUsers) {
+      await sendTelegramMessage(chatId, `❌ Ошибка в изначальная установку таблицы`)
     }
     console.error('❌ Ошибка в команде /initial:', error.message)
   }

@@ -69,10 +69,10 @@ export const readSheet = async () => {
 
   const data = getSheetDataArray(rows)
 
-  const output = `export const sheetData = ${JSON.stringify(data, null, 2)}\n`
-  writeFileSync('./mock/sheet-data.js', output)
-
-  console.log('✅ Данные сохранены в mock/sheet-data.js')
+  // const output = `export const sheetData = ${JSON.stringify(data, null, 2)}\n`
+  // writeFileSync('./mock/sheet-data.js', output)
+  //
+  // console.log('✅ Данные сохранены в mock/sheet-data.js')
   return data
 }
 
