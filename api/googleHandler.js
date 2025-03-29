@@ -3,7 +3,7 @@ import { allowedUsers } from '../access/index.js'
 import axios from 'axios'
 import { getTimeInUkraine } from '../assets/dateFormat.js'
 import { getInitialDataForSheet } from '../assets/filteredData.js'
-import { updateMultipleSpecificCells } from './updateCellSheet.js'
+// import { updateMultipleSpecificCells } from './updateCellSheet.js'
 import { readSheet } from '../utils/readSheet.js'
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
