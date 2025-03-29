@@ -58,7 +58,7 @@ async function handleStartCommand(chatId, user) {
   }
 }
 
-async function handleInitialCommand(chatId, user) {
+async function handleInitialCommand(user) {
   try {
     for (const chatIdUser of allowedUsers) {
       await sendTelegramMessage(
