@@ -4,6 +4,7 @@ import { getTimeInUkraine } from '../assets/dateFormat.js'
 import { setInitialDataSheet } from './googleHandler.js'
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
 
 export async function sendTelegramMessage(chatId, text, replyMarkup) {
   try {
@@ -101,7 +102,8 @@ async function isAuthorizedUser(userId, chatId, userName) {
 
 export default async function telegramHandler(req, res) {
   console.log('🔥 Webhook вызван в', new Date().toLocaleString('ru-RU'))
-
+  console.log('TELEGRAM_TOKEN ', TELEGRAM_TOKEN)
+  console.log('GOOGLE_CREDENTIALS ', GOOGLE_CREDENTIALS)
   try {
     const body = req.body
     const userId = body?.message?.from?.id || body?.callback_query?.from?.id
