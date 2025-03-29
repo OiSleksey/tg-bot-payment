@@ -102,8 +102,8 @@ async function isAuthorizedUser(userId, chatId, userName) {
 
 export default async function telegramHandler(req, res) {
   console.log('🔥 Webhook вызван в', new Date().toLocaleString('ru-RU'))
-  console.log('TELEGRAM_TOKEN 1', TELEGRAM_TOKEN)
-  console.log('GOOGLE_CREDENTIALS 1', GOOGLE_CREDENTIALS)
+  console.log('TELEGRAM_TOKEN', TELEGRAM_TOKEN)
+  console.log('GOOGLE_CREDENTIALS', GOOGLE_CREDENTIALS)
   try {
     const body = req.body
     const userId = body?.message?.from?.id || body?.callback_query?.from?.id
