@@ -23,11 +23,7 @@ import { getValidateNumber } from '../../assets/validateData.js'
 
 export const getDataMessagesPending = (data) => {
   return data.map((item) => {
-    const text = `💳 Проплата: ${item?.[NAME_KEY]}
-    \nСумма:${item?.[COST_KEY]}
-    \nЛогин:${item?.[LOGIN_KEY]}
-    \nОсталось дней до запроса:${item?.[DAYS_UNTIL_REQUEST_KEY]}
-    \nОсталось дней до проплаты:${item?.[DAYS_UNTIL_PAYMENT_KEY]}`
+    const text = `💳 Проплата: ${item?.[NAME_KEY]}\nСумма:${item?.[COST_KEY]}\nЛогин:${item?.[LOGIN_KEY]}\nОсталось дней до запроса:${item?.[DAYS_UNTIL_REQUEST_KEY]}\nОсталось дней до проплаты:${item?.[DAYS_UNTIL_PAYMENT_KEY]}`
     const idSuccess = PAY_PART_KEY + getValidateNumber(item?.[ID_KEY])
     const idCancel = CANCEL_PART_KEY + getValidateNumber(item?.[ID_KEY])
     return {

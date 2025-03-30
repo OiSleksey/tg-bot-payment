@@ -25,7 +25,7 @@ export async function repeatSheet() {
     const telegramMessages = getDataMessagesPending(dataByAlert)
     console.log(dataByAlertSheet, dataByAlertSheet)
     console.log(telegramMessages, telegramMessages)
-    return null
+    // return null
     for (const message of telegramMessages) {
       for (const chatId of allowedUsers) {
         await sendTelegramMessage(
@@ -33,7 +33,7 @@ export async function repeatSheet() {
           message[TEXT_KEY],
           message[INLINE_KEYBOARD_KEY],
         )
-        await delaySeconds(1)
+        // await delaySeconds(1)
       }
       await delaySeconds(1)
     }
