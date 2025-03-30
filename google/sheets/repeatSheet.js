@@ -26,8 +26,8 @@ export async function repeatSheet() {
     console.log(dataByAlertSheet, dataByAlertSheet)
     console.log(telegramMessages, telegramMessages)
     // return null
-    for (const message of telegramMessages) {
-      for (const chatId of allowedUsers) {
+    for (const chatId of allowedUsers) {
+      for (const message of telegramMessages) {
         await sendTelegramMessage(
           chatId,
           message[TEXT_KEY],
@@ -35,8 +35,10 @@ export async function repeatSheet() {
         )
         // await delaySeconds(1)
       }
+
       await delaySeconds(1)
     }
+
     return await updateMultipleSpecificCells(dataByAlertSheet)
   }
 
