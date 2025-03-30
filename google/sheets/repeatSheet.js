@@ -23,6 +23,9 @@ export async function repeatSheet() {
   } else {
     const dataByAlertSheet = getDataSheetPending(dataByAlert)
     const telegramMessages = getDataMessagesPending(dataByAlert)
+    console.log(dataByAlertSheet, dataByAlertSheet)
+    console.log(telegramMessages, telegramMessages)
+    return null
     for (const message of telegramMessages) {
       for (const chatId of allowedUsers) {
         await sendTelegramMessage(
