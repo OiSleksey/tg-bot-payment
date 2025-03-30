@@ -1,4 +1,4 @@
-import { readSheet } from './readSheet.js'
+import { readSheet } from '../index.js'
 import { setSheetData } from '../../local/index.js'
 import { getDataByAlertRequest } from '../utils/payData.js'
 import { getDataSheetPending } from '../utils/rangeCell.js'

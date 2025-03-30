@@ -1,14 +1,13 @@
 import { google } from 'googleapis'
-import { ID_KEY } from '../constants/index.js'
+import { ID_KEY } from '../../constants/index.js'
 import {
   getValidateNumber,
   getValidateString,
   getValidateObject,
   getValidateArray,
   getValidateBoolean,
-} from '../assets/validateData.js'
-import { spreadsheetId, range } from '../globals/index.js'
-import { setSheetData } from '../local/index.js'
+} from '../../assets/validateData.js'
+import { spreadsheetId, range } from '../../globals/index.js'
 
 const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
 
@@ -66,11 +65,7 @@ export const readSheet = async () => {
   })
 
   const rows = res.data.values
-
-  const data = getSheetDataArray(rows)
-  setSheetData(data)
-
-  return data
+  return getSheetDataArray(rows)
 }
 
 // readSheet()

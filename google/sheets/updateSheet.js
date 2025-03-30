@@ -1,5 +1,5 @@
 import { google } from 'googleapis'
-import { spreadsheetId, range } from '../globals/index.js'
+import { spreadsheetId, range } from '../../globals/index.js'
 
 const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
 
