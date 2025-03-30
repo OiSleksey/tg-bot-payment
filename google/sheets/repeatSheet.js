@@ -29,9 +29,9 @@ export async function repeatSheet() {
         await sendTelegramMessage(chatId, message[TEXT_KEY], {
           [INLINE_KEYBOARD_KEY]: message[INLINE_KEYBOARD_KEY],
         })
-        await delaySeconds(1)
+        // await delaySeconds(1)
       }
-      await delaySeconds(1)
+      // await delaySeconds(1)
     }
     await updateMultipleSpecificCells(dataByAlertSheet)
     return Promise.resolve()
