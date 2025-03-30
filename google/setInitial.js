@@ -1,4 +1,4 @@
-import { readSheet } from 'index.js'
+import { readSheet } from './index.js'
 import { getInitialDataForSheet } from '../assets/filteredData.js'
 import { updateMultipleSpecificCells } from './index.js'
 import { getSheetData } from '../local/index.js'
