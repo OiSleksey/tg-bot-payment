@@ -76,6 +76,7 @@ export const getDataByAlertRequest = (data) => {
   return dataByAllDate.filter(
     (item) =>
       item?.[DAYS_UNTIL_PAYMENT_KEY] <= 3 &&
-      item?.[IS_PENDING_KEY] !== TRUE_TYPE_KEY,
+      getValidateString(item?.[IS_PENDING_KEY]).trim().toLowerCase() !==
+        getValidateString(TRUE_TYPE_KEY).trim().toLowerCase(),
   )
 }
