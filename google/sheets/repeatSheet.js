@@ -35,11 +35,8 @@ export async function repeatSheet() {
         //   'message[INLINE_KEYBOARD_KEY]',
         //   message[INLINE_KEYBOARD_KEY],
         // )
-        await sendTelegramMessage(
-          chatId,
-          message[TEXT_KEY],
-          message[INLINE_KEYBOARD_KEY],
-        )
+        await sendTelegramMessage(chatId, message[TEXT_KEY])
+        // message[INLINE_KEYBOARD_KEY],
         // await delaySeconds(1)
       }
 
