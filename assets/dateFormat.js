@@ -15,7 +15,7 @@ import {
   PAY_REPEAT_KEY,
   LAST_DATE_PAYMENT_KEY,
 } from '../constants/index.js'
-import { dayPayment } from '../access/index.js'
+import { daysPayment } from '../globals/index.js'
 
 import {
   getValidateArray,
@@ -23,7 +23,12 @@ import {
   getValidateBoolean,
   getValidateObject,
   getValidateNumber,
-} from './valaidateData.js'
+} from './validateData.js'
+
+export const getDisplayDateWithDay = (date) => {
+  if (!date) return '-'
+  return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY, dddd')
+}
 
 export const getTimeInUkraine = () => {
   return moment().tz('Europe/Kyiv').format('DD.MM.YYYY, HH:mm:ss')
@@ -35,12 +40,9 @@ export const delaySeconds = (second) => {
 
 const getClosestValidDate = (dateStr) => {
   let date = moment(dateStr)
-
-  // console.log('START ', dateStr)
-  while (!dayPayment.includes(date.day())) {
+  while (!daysPayment.includes(date.day())) {
     date = date.subtract(1, 'day')
   }
-  // console.log('END ', date.format())
   return date.format()
 }
 
@@ -192,7 +194,7 @@ const getIsEveryMonth = (data, payRepeat) => {
   }
 }
 
-export const getLastUpdateDate = (date) => {
+export const getDateByUnknownFormat = (date) => {
   if (!date) return null
 
   const formats = [
@@ -222,7 +224,7 @@ export const getNextPayment = (data, isRepeat = false) => {
   const everyYear = getIsEveryYear(data, payRepeat)
   const everyMonth = getIsEveryMonth(data, payRepeat)
 
-  const lastDatePayment = getLastUpdateDate(data?.[LAST_DATE_PAYMENT_KEY])
+  const lastDatePayment = getDateByUnknownFormat(data?.[LAST_DATE_PAYMENT_KEY])
   if (!everyYear && !everyMonth) return 'Ничего не выбрано'
 
   if (!lastDatePayment) return 'Не указана дата начала оплаты'
@@ -239,9 +241,4 @@ export const getNextPayment = (data, isRepeat = false) => {
       isRepeat,
     })
   }
-}
-
-export const getDisplayDateWithDay = (date) => {
-  if (!date) return '-'
-  return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY, dddd')
 }

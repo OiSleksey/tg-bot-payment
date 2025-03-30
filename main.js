@@ -1,17 +1,19 @@
-import { getInitialDataForSheet } from './assets/filteredData.js'
-// import { updateMultipleSpecificCells } from './api/updateCellSheet.js'
-import { sheetData } from './mock/sheet-data.js'
-import { getLastUpdateDate } from './assets/dateFormat.js'
+import {
+  getDataByAlertRequest,
+  getDataSheetPending,
+  getDataMessagesPending,
+} from './assets/filteredData.js'
+import { INLINE_KEYBOARD_KEY, VALUES_KEY } from './constants/index.js'
+import { getSheetData } from './local/index.js'
 
-const setInitialDataSheet = () => {
-  console.log('asdasd')
-  // return null
-  const dataRequest = getInitialDataForSheet(sheetData)
-  // console.log('setInitialDataSheet', dataRequest)
-  return null
-  // updateMultipleSpecificCells(dataRequest)
-  //   .then((res) => console.log(res))
-  //   .catch((err) => console.error(err))
+const setAlertData = () => {
+  const sheetData = getSheetData()
+  const dataByAlert = getDataByAlertRequest(sheetData)
+  if (!dataByAlert.length) return null
+  const dataSheet = getDataSheetPending(dataByAlert)
+  console.log('Set Is_Pending Sheet ', dataSheet[0][VALUES_KEY])
+  const dataMessages = getDataMessagesPending(dataByAlert)
+  console.log('send messages in telegram ', dataMessages[0][INLINE_KEYBOARD_KEY][0])
 }
 
-// console.log(getLastUpdateDate('22-03-2024'))
+setAlertData()

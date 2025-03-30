@@ -1,5 +1,4 @@
-// import { sheetData } from '../mock/sheet-data.js'
-import { getValidateArray, getValidateNumber, getValidateString } from './valaidateData.js'
+import { getValidateArray, getValidateNumber, getValidateString } from './validateData.js'
 import {
   DAYS_UNTIL_PAYMENT_KEY,
   DAYS_UNTIL_REQUEST_KEY,
@@ -15,6 +14,14 @@ import {
   SHEET_META_KEY,
   COLS_KEY,
   NAME_KEY,
+  COST_KEY,
+  LOGIN_KEY,
+  ID_KEY,
+  PAY_PART_KEY,
+  TEXT_KEY,
+  INLINE_KEYBOARD_KEY,
+  CALLBACK_DATA_KEY,
+  CANCEL_PART_KEY,
 } from '../constants/index.js'
 import { getNextPayment, getTimeInUkraine, getDisplayDateWithDay } from './dateFormat.js'
 
@@ -103,4 +110,51 @@ export const getInitialDataForSheet = (data) => {
     ...isPendingArray,
   ]
   return getFilterDataByRange(fullData)
+}
+
+export const getDataByAlertRequest = (data) => {
+  const dataByAllDate = getDataByAllDate(data)
+  console.log(dataByAllDate[0])
+  const dataForRemainingThreeDays = dataByAllDate.filter(
+    (item) => item?.[DAYS_UNTIL_PAYMENT_KEY] <= 3 && item?.[IS_PENDING_KEY] !== TRUE_TYPE_KEY,
+  )
+  return dataForRemainingThreeDays
+  console.log(dataForRemainingThreeDays)
+  console.log(dataForRemainingThreeDays.length)
+}
+
+export const getDataSheetPending = (data) => {
+  return data.map((item) => ({
+    [RANGE_KEY]: getRangeCell(item, IS_PENDING_KEY),
+    [VALUES_KEY]: [[TRUE_TYPE_KEY.toUpperCase()]],
+  }))
+}
+
+// `💳 Проплата: Wild Hosting\nСумма: €15\nID: 203`, {
+//   inline_keyboard: [
+//     [
+//       { text: '✅ Оплатил', callback_data: 'pay_203' },
+//       { text: '❌ Отменить', callback_data: 'cancel_203' },
+//     ],
+//   ],
+
+export const getDataMessagesPending = (data) => {
+  return data.map((item) => {
+    const text = `💳 Проплата: ${item?.[NAME_KEY]}
+    \nСумма:${item?.[COST_KEY]}
+    \nЛогин:${item?.[LOGIN_KEY]}
+    \nОсталось дней до запроса:${item?.[DAYS_UNTIL_REQUEST_KEY]}
+    \nОсталось дней до проплаты:${item?.[DAYS_UNTIL_PAYMENT_KEY]}`
+    const idSuccess = PAY_PART_KEY + getValidateNumber(item?.[ID_KEY])
+    const idCancel = CANCEL_PART_KEY + getValidateNumber(item?.[ID_KEY])
+    return {
+      [TEXT_KEY]: text,
+      [INLINE_KEYBOARD_KEY]: [
+        [
+          { [TEXT_KEY]: '✅ Оплатить', [CALLBACK_DATA_KEY]: idSuccess },
+          { [TEXT_KEY]: '❌ Отменить', [CALLBACK_DATA_KEY]: idCancel },
+        ],
+      ],
+    }
+  })
 }

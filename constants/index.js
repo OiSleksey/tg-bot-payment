@@ -40,3 +40,10 @@ export const FALSE_TYPE_KEY = 'false'
 //Update Cell keys
 export const RANGE_KEY = 'range'
 export const VALUES_KEY = 'values'
+
+//TG Keys
+export const INLINE_KEYBOARD_KEY = 'inline_keyboard'
+export const TEXT_KEY = 'text'
+export const CALLBACK_DATA_KEY = 'callback_data'
+export const PAY_PART_KEY = 'pay_'
+export const CANCEL_PART_KEY = 'cancel_'

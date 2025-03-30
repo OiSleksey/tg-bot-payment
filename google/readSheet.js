@@ -1,5 +1,4 @@
 import { google } from 'googleapis'
-import { readFileSync, writeFileSync } from 'fs'
 import { ID_KEY } from '../constants/index.js'
 import {
   getValidateNumber,
@@ -7,13 +6,15 @@ import {
   getValidateObject,
   getValidateArray,
   getValidateBoolean,
-} from '../assets/valaidateData.js'
-import { spreadsheetId, range } from '../access/index.js'
-import XLSX from 'xlsx'
+} from '../assets/validateData.js'
+import { spreadsheetId, range } from '../globals/index.js'
+import { setSheetData } from '../local/index.js'
+
+const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
 
 // console.log(JSON.parse(readFileSync('./google-credentials.json', 'utf8')))
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(readFileSync('./google-credentials.json', 'utf8')),
+  credentials: JSON.parse(GOOGLE_CREDENTIALS),
   scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
 })
 
@@ -54,10 +55,9 @@ const getSheetDataArray = (rows) => {
   })
 }
 
-async function readSheet() {
+export const readSheet = async () => {
   const client = await auth.getClient()
-  // console.log(client)
-  // return null
+
   const sheets = google.sheets({ version: 'v4', auth: client })
 
   const res = await sheets.spreadsheets.values.get({
@@ -68,14 +68,11 @@ async function readSheet() {
   const rows = res.data.values
 
   const data = getSheetDataArray(rows)
+  setSheetData(data)
 
-  const output = `export const sheetData = ${JSON.stringify(data, null, 2)}\n`
-  writeFileSync('./mock/sheet-data.js', output)
-
-  console.log('✅ Данные сохранены в mock/sheet-data.js')
   return data
 }
 
-readSheet()
-  .then((res) => console.log(res))
-  .catch(console.error)
+// readSheet()
+//   .then((res) => console.log(res))
+//   .catch(console.error)

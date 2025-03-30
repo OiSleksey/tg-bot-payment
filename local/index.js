@@ -1,3 +1,5 @@
+import { getValidateArray } from '../assets/validateData.js'
+
 export const sheetData = [
   {
     name: 'Имя сервиса',
@@ -1536,3 +1538,12 @@ export const sheetData = [
     },
   },
 ]
+
+export const getSheetData = () => {
+  return sheetData
+}
+
+export const setSheetData = (newData) => {
+  const newDataArray = getValidateArray(newData)
+  sheetData.splice(0, sheetData.length, ...newDataArray)
+}
