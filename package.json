@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "main": "node main.js",
-    "dev": "node assets/filteredData.js",
     "dev1": "node utils/readSheet.js",
     "updateCell": "node api/updateCellSheet.js"
   },

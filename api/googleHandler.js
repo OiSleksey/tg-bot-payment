@@ -2,6 +2,7 @@
 import { allowedUsers } from '../globals/index.js'
 import { delaySeconds, getTimeInUkraine } from '../assets/dateFormat.js'
 import { sendTelegramMessage } from '../telegram/index.js'
+import { repeatSheet } from '../google/index.js'
 
 export default async function googleHandler(req, res) {
   console.log('📥 Запрос от Google Apps Script:', getTimeInUkraine())
@@ -13,6 +14,7 @@ export default async function googleHandler(req, res) {
       )
       await delaySeconds(1)
     }
+    await repeatSheet()
     res.status(200).json({ message: '✅ Google trigger received!' })
   } catch (err) {
     console.error('❌ Ошибка обработки Google запроса:', err)

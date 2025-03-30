@@ -35,7 +35,9 @@ export const getTimeInUkraine = () => {
 }
 
 export const delaySeconds = (second) => {
-  return new Promise((resolve) => setTimeout(resolve, getValidateNumber(second) * 1000))
+  return new Promise((resolve) =>
+    setTimeout(resolve, getValidateNumber(second) * 1000),
+  )
 }
 
 const getClosestValidDate = (dateStr) => {
@@ -99,18 +101,27 @@ const getNextPaymentByMonth = ({ lastDatePayment, payRepeat, isRepeat }) => {
   const maxIterations = 240
 
   let i = 0
+
   if (payRepeat === EVERY_30_DAYS_TYPE_KEY) {
     while (nextDate.isBefore(now) && i < maxIterations) {
       nextDate = nextDate.clone().add(30, 'days').subtract(0, 'days')
       i++
     }
-    if (isRepeat) nextDate = nextDate.clone().add(30, 'days').subtract(0, 'days')
+    if (isRepeat)
+      nextDate = nextDate.clone().add(30, 'days').subtract(0, 'days')
   } else {
     while (nextDate.isBefore(now) && i < maxIterations) {
-      nextDate = nextDate.clone().add(1, 'month').subtract(offsetPaymentDay, 'days')
+      nextDate = nextDate
+        .clone()
+        .add(1, 'month')
+        .subtract(offsetPaymentDay, 'days')
       i++
     }
-    if (isRepeat) nextDate = nextDate.clone().add(1, 'month').subtract(offsetPaymentDay, 'days')
+    if (isRepeat)
+      nextDate = nextDate
+        .clone()
+        .add(1, 'month')
+        .subtract(offsetPaymentDay, 'days')
   }
 
   const nextDatePayment = nextDate.format()
@@ -138,11 +149,18 @@ const getNextPaymentByYear = ({ lastDatePayment, payRepeat, isRepeat }) => {
 
   let i = 0
   while (nextDate.isBefore(now) && i < maxIterations) {
-    nextDate = nextDate.clone().add(1, 'year').subtract(offsetPaymentDay, 'days')
+    nextDate = nextDate
+      .clone()
+      .add(1, 'year')
+      .subtract(offsetPaymentDay, 'days')
     i++
   }
 
-  if (isRepeat) nextDate = nextDate.clone().add(1, 'year').subtract(offsetPaymentDay, 'days')
+  if (isRepeat)
+    nextDate = nextDate
+      .clone()
+      .add(1, 'year')
+      .subtract(offsetPaymentDay, 'days')
 
   const nextDatePayment = nextDate.format()
   const daysUntilPayment = getDaysFromToday(nextDatePayment)
@@ -219,7 +237,9 @@ export const getDateByUnknownFormat = (date) => {
 }
 
 export const getNextPayment = (data, isRepeat = false) => {
-  const payRepeat = getValidateString(data?.[PAY_REPEAT_KEY]).toLowerCase().trim()
+  const payRepeat = getValidateString(data?.[PAY_REPEAT_KEY])
+    .toLowerCase()
+    .trim()
 
   const everyYear = getIsEveryYear(data, payRepeat)
   const everyMonth = getIsEveryMonth(data, payRepeat)
