@@ -20,14 +20,21 @@ export async function repeatSheet() {
       await sendTelegramMessage(chatId, `Ближайшие 3 дня нет проплат`)
       await delaySeconds(1)
     }
+
+    return Promise.resolve()
   } else {
     const dataByAlertSheet = getDataSheetPending(dataByAlert)
     const telegramMessages = getDataMessagesPending(dataByAlert)
-    console.log(dataByAlertSheet, dataByAlertSheet)
-    console.log(telegramMessages, telegramMessages)
+
     // return null
     for (const chatId of allowedUsers) {
       for (const message of telegramMessages) {
+        // console.log('chatId', chatId)
+        // console.log('message[TEXT_KEY]', message[TEXT_KEY])
+        // console.log(
+        //   'message[INLINE_KEYBOARD_KEY]',
+        //   message[INLINE_KEYBOARD_KEY],
+        // )
         await sendTelegramMessage(
           chatId,
           message[TEXT_KEY],
@@ -36,10 +43,10 @@ export async function repeatSheet() {
         // await delaySeconds(1)
       }
 
-      await delaySeconds(1)
+      // await delaySeconds(1)
     }
-
-    return await updateMultipleSpecificCells(dataByAlertSheet)
+    // await updateMultipleSpecificCells(dataByAlertSheet)
+    return dataByAlertSheet
   }
 
   // console.log('📥 Запрос от Google Apps Script:', getTimeInUkraine())

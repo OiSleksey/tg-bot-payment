@@ -2,7 +2,15 @@ import axios from 'axios'
 import { sendTelegramMessage } from '../index.js'
 import { getTimeInUkraine } from '../../assets/dateFormat.js'
 
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+let TELEGRAM_TOKEN
+
+if (process.env.VERCEL) {
+  TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+} else {
+  const dotenv = await import('dotenv')
+  dotenv.config()
+  TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+}
 
 export async function handleCallbackQuery(callbackQuery, chatId) {
   try {
@@ -13,11 +21,14 @@ export async function handleCallbackQuery(callbackQuery, chatId) {
 
     console.log(`📌 Действие: ${action}, ID: ${id}, Пользователь: ${user}`)
 
-    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`, {
-      chat_id: chatId,
-      message_id: messageId,
-      reply_markup: { inline_keyboard: [] },
-    })
+    await axios.post(
+      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
+      {
+        chat_id: chatId,
+        message_id: messageId,
+        reply_markup: { inline_keyboard: [] },
+      },
+    )
 
     await sendTelegramMessage(
       chatId,

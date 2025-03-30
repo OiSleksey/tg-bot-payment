@@ -1,10 +1,18 @@
 import { google } from 'googleapis'
 import { spreadsheetId, range } from '../../globals/index.js'
 
-const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
+let GOOGLE_CREDENTIALS
+
+if (process.env.VERCEL) {
+  GOOGLE_CREDENTIALS = JSON.parse(process.env.GOOGLE_CREDENTIALS)
+} else {
+  const dotenv = await import('dotenv')
+  dotenv.config()
+  GOOGLE_CREDENTIALS = JSON.parse(process.env.GOOGLE_CREDENTIALS)
+}
 
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(GOOGLE_CREDENTIALS),
+  credentials: GOOGLE_CREDENTIALS,
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 

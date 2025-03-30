@@ -1,14 +1,25 @@
 import axios from 'axios'
 
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+let TELEGRAM_TOKEN
+
+if (process.env.VERCEL) {
+  TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+} else {
+  const dotenv = await import('dotenv')
+  dotenv.config()
+  TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
+}
 
 export async function sendTelegramMessage(chatId, text, replyMarkup) {
   try {
-    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-      chat_id: chatId,
-      text,
-      ...(replyMarkup && { reply_markup: replyMarkup }),
-    })
+    await axios.post(
+      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
+      {
+        chat_id: chatId,
+        text,
+        ...(replyMarkup && { reply_markup: replyMarkup }),
+      },
+    )
   } catch (error) {
     console.error('❌ Ошибка отправки сообщения:', error.message)
   }

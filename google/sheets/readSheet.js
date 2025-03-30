@@ -1,5 +1,6 @@
 import { google } from 'googleapis'
 import { ID_KEY } from '../../constants/index.js'
+import { readFileSync } from 'fs'
 import {
   getValidateNumber,
   getValidateString,
@@ -9,11 +10,18 @@ import {
 } from '../../assets/validateData.js'
 import { spreadsheetId, range } from '../../globals/index.js'
 
-const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS
+let GOOGLE_CREDENTIALS
 
+if (process.env.VERCEL) {
+  GOOGLE_CREDENTIALS = JSON.parse(process.env.GOOGLE_CREDENTIALS)
+} else {
+  const dotenv = await import('dotenv')
+  dotenv.config()
+  GOOGLE_CREDENTIALS = JSON.parse(process.env.GOOGLE_CREDENTIALS)
+}
 // console.log(JSON.parse(readFileSync('./google-credentials.json', 'utf8')))
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(GOOGLE_CREDENTIALS),
+  credentials: GOOGLE_CREDENTIALS,
   scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
 })
 
