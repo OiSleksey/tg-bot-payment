@@ -171,9 +171,9 @@ export async function handleCallbackQuery(callbackQuery) {
     const chatId = callbackQuery.message.chat.id
 
     if (action === PAY_PART_KEY) {
-      await handlePayClick(callbackQuery, id, messageId, user)
+      await handlePayClick(callbackQuery, id, messageId, user, chatId)
     } else if (action === CANCEL_PAY_PART_KEY) {
-      await handleCancelPayClick(callbackQuery, id, messageId, user, chatId)
+      await handleCancelPayClick(callbackQuery, id, messageId, user)
     } else if (action === PAID_PART_KEY) {
       await handlePaidClick(callbackQuery, id, messageId, user)
     } else if (action === CANCEL_PAID_PART_KEY) {
