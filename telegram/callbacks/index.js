@@ -48,17 +48,8 @@ const getRedisData = async (id) => {
   const raw = await redis.lrange(`${REDIS_PAYMENT_PART_KEY}_${id}`, 0, -1)
   console.log('ID ', `${REDIS_PAYMENT_PART_KEY}_${id}`)
   console.log('raw ', raw)
-
   const result = getValidateArray(raw)
-    .map((item) => {
-      try {
-        return JSON.parse(item)
-      } catch {
-        return null
-      }
-    })
-    .filter((item) => item)
-  console.log('raw ', result)
+  console.log('result ', result)
   return result
 }
 
