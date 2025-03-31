@@ -12,7 +12,7 @@ if (process.env.VERCEL) {
 
 export async function sendTelegramMessage(chatId, text, replyMarkup) {
   try {
-    await axios.post(
+    const res = await axios.post(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
         chat_id: chatId,
@@ -20,6 +20,7 @@ export async function sendTelegramMessage(chatId, text, replyMarkup) {
         ...(replyMarkup && { reply_markup: replyMarkup }),
       },
     )
+    return res.data.result?.message_id
   } catch (error) {
     console.error('❌ Ошибка отправки сообщения:', error.message)
   }

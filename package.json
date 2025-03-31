@@ -8,6 +8,7 @@
     "updateCell": "node api/updateCellSheet.js"
   },
   "dependencies": {
+    "@upstash/redis": "^1.34.6",
     "axios": "^1.8.4",
     "dotenv": "^16.4.7",
     "googleapis": "^148.0.0",

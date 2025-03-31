@@ -9,12 +9,27 @@ import {
 } from '../../telegram/index.js'
 import { allowedUsers } from '../../globals/index.js'
 import { delaySeconds } from '../../assets/dateFormat.js'
-import { INLINE_KEYBOARD_KEY, TEXT_KEY } from '../../constants/index.js'
+import {
+  CHAT_ID_KEY,
+  INLINE_KEYBOARD_KEY,
+  MESSAGE_ID_KEY,
+  REDIS_PAYMENT_PART_KEY,
+  TEXT_KEY,
+} from '../../constants/index.js'
+import { redis } from '../../libs/redis.js'
+import { getValidateArray } from '../../assets/validateData.js'
+
+const setRedisData = async (data) => {
+  const redisData = getValidateArray(data)
+  for (const [key, values] of Object.entries(redisData)) {
+    await redis.del(key)
+    await redis.rpush(key, ...values)
+  }
+}
 
 export async function repeatSheet() {
   const sheetData = await readSheet()
-  setSheetData(sheetData)
-  console.log(sheetData)
+
   const dataByAlert = getDataByAlertRequest(sheetData)
   if (!dataByAlert.length) {
     for (const chatId of allowedUsers) {
@@ -25,16 +40,35 @@ export async function repeatSheet() {
   } else {
     const dataByAlertSheet = getDataSheetPending(dataByAlert)
     const telegramMessages = getDataMessagesPending(dataByAlert)
-    for (const chatId of allowedUsers) {
-      for (const message of telegramMessages) {
-        await sendTelegramMessage(chatId, message[TEXT_KEY], {
+    const redisData = {}
+    for (const message of telegramMessages) {
+      for (const chatId of allowedUsers) {
+        const messageId = await sendTelegramMessage(chatId, message[TEXT_KEY], {
           [INLINE_KEYBOARD_KEY]: message[INLINE_KEYBOARD_KEY],
         })
-        await delaySeconds(0.1)
+        if (messageId) {
+          const redisKey = `${REDIS_PAYMENT_PART_KEY}_${message.id}`
+
+          if (!redisData[redisKey]) {
+            redisData[redisKey] = []
+          }
+
+          redisData[redisKey].push(
+            JSON.stringify({
+              [CHAT_ID_KEY]: chatId,
+              [MESSAGE_ID_KEY]: messageId,
+            }),
+          )
+          await delaySeconds(0.1)
+        }
       }
-      await sendTelegramMessage(chatId, 'Это все проплаты на сегодня')
-      await delaySeconds(0.1)
     }
+
+    for (const chatId of allowedUsers) {
+      await sendTelegramMessage(chatId, 'Это все проплаты на сегодня')
+    }
+
+    await setRedisData()
     await updateMultipleSpecificCells(dataByAlertSheet)
     return Promise.resolve()
   }
