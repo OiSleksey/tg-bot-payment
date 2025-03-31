@@ -62,7 +62,7 @@ const handlePayClick = async (callbackQuery, id, messageId, user) => {
     const message = `🟢 Оплатить | нажал "${user}" в ${getTimeInUkraine()}`
     const idPaid = PAID_PART_KEY + '_' + getValidateNumber(id)
     const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + getValidateNumber(id)
-    const redisData = getRedisData(id)
+    const redisData = await getRedisData(id)
     for (const item of redisData) {
       await axios.post(
         `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
@@ -92,7 +92,7 @@ const handlePayClick = async (callbackQuery, id, messageId, user) => {
 
 const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
   const message = `❌ Отменить | (Вместо Оплатить) нажал "${user}" в ${getTimeInUkraine()}`
-  const redisData = getRedisData(id)
+  const redisData = await getRedisData(id)
   try {
     for (const item of redisData) {
       await axios.post(
