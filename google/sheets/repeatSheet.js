@@ -11,6 +11,7 @@ import { allowedUsers } from '../../globals/index.js'
 import { delaySeconds } from '../../assets/dateFormat.js'
 import {
   CHAT_ID_KEY,
+  ID_KEY,
   INLINE_KEYBOARD_KEY,
   MESSAGE_ID_KEY,
   REDIS_PAYMENT_PART_KEY,
@@ -46,7 +47,7 @@ export async function repeatSheet() {
           [INLINE_KEYBOARD_KEY]: message[INLINE_KEYBOARD_KEY],
         })
         if (messageId) {
-          const redisKey = `${REDIS_PAYMENT_PART_KEY}_${message.id}`
+          const redisKey = `${REDIS_PAYMENT_PART_KEY}_${message[ID_KEY]}`
 
           if (!redisData[redisKey]) {
             redisData[redisKey] = []
@@ -67,19 +68,19 @@ export async function repeatSheet() {
     await updateMultipleSpecificCells(dataByAlertSheet)
     return Promise.resolve()
   }
-
-  // console.log('📥 Запрос от Google Apps Script:', getTimeInUkraine())
-  // try {
-  //     for (const chatId of allowedUsers) {
-  //         await sendTelegramMessage(
-  //             chatId,
-  //             `📬 Получен запрос с Google Apps Script в ${getTimeInUkraine()}`,
-  //         )
-  //         await delaySeconds(1)
-  //     }
-  //     res.status(200).json({ message: '✅ Google trigger received!' })
-  // } catch (err) {
-  //     console.error('❌ Ошибка обработки Google запроса:', err)
-  //     res.status(500).json({ error: 'Ошибка сервера' })
-  // }
 }
+
+// console.log('📥 Запрос от Google Apps Script:', getTimeInUkraine())
+// try {
+//     for (const chatId of allowedUsers) {
+//         await sendTelegramMessage(
+//             chatId,
+//             `📬 Получен запрос с Google Apps Script в ${getTimeInUkraine()}`,
+//         )
+//         await delaySeconds(1)
+//     }
+//     res.status(200).json({ message: '✅ Google trigger received!' })
+// } catch (err) {
+//     console.error('❌ Ошибка обработки Google запроса:', err)
+//     res.status(500).json({ error: 'Ошибка сервера' })
+// }
