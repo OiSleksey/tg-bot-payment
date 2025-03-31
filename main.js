@@ -6,6 +6,7 @@ import {
 import { INLINE_KEYBOARD_KEY, VALUES_KEY } from './constants/index.js'
 import { getSheetData } from './local/index.js'
 import { getDataMessagesPending } from './telegram/index.js'
+import { googleSheetUpdateByPay } from './google/sheets/telegramUpdateSheet.js'
 
 // const setAlertData = () => {
 //   const sheetData = getSheetData()
@@ -20,4 +21,5 @@ import { getDataMessagesPending } from './telegram/index.js'
 //   )
 // }
 
-repeatSheet()
+googleSheetUpdateByPay(34, 'MESAge')
+// repeatSheet()

@@ -13,6 +13,7 @@ import {
 } from '../../constants/index.js'
 import { getValidateNumber } from '../../assets/validateData.js'
 import {
+  googleSheetUpdateByCancelPaid,
   googleSheetUpdateByCancelPay,
   googleSheetUpdateByPaid,
   googleSheetUpdateByPay,
@@ -35,32 +36,52 @@ const sendErrorMassage = async (message) => {
   }
 }
 
-const handlePayClick = async (callbackQuery, id, messageId, user) => {
+const handlePayClick = async (callbackQuery, id, messageId, user, chatId) => {
   try {
     const message = `🟢 Оплатить | нажал "${user}" в ${getTimeInUkraine()}`
-    for (const chatId of allowedUsers) {
-      const idPaid = PAID_PART_KEY + '_' + getValidateNumber(id)
-      const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + getValidateNumber(id)
-      await axios.post(
-        `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
-        {
-          chat_id: chatId,
-          message_id: messageId,
-          reply_markup: {
-            [INLINE_KEYBOARD_KEY]: [
-              [
-                { [TEXT_KEY]: '✅ Оплачено', [CALLBACK_DATA_KEY]: idPaid },
-                {
-                  [TEXT_KEY]: '❌ Отменить',
-                  [CALLBACK_DATA_KEY]: idCancelPaid,
-                },
-              ],
+    const idPaid = PAID_PART_KEY + '_' + getValidateNumber(id)
+    const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + getValidateNumber(id)
+    await axios.post(
+      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
+      {
+        chat_id: chatId,
+        message_id: messageId,
+        reply_markup: {
+          [INLINE_KEYBOARD_KEY]: [
+            [
+              { [TEXT_KEY]: '✅ Оплачено', [CALLBACK_DATA_KEY]: idPaid },
+              {
+                [TEXT_KEY]: '❌ Отменить',
+                [CALLBACK_DATA_KEY]: idCancelPaid,
+              },
             ],
-          },
+          ],
         },
-      )
-      await sendTelegramMessage(chatId, message)
-    }
+      },
+    )
+    // for (const chatId of allowedUsers) {
+    //   const idPaid = PAID_PART_KEY + '_' + getValidateNumber(id)
+    //   const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + getValidateNumber(id)
+    //   await axios.post(
+    //     `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
+    //     {
+    //       chat_id: chatId,
+    //       message_id: messageId,
+    //       reply_markup: {
+    //         [INLINE_KEYBOARD_KEY]: [
+    //           [
+    //             { [TEXT_KEY]: '✅ Оплачено', [CALLBACK_DATA_KEY]: idPaid },
+    //             {
+    //               [TEXT_KEY]: '❌ Отменить',
+    //               [CALLBACK_DATA_KEY]: idCancelPaid,
+    //             },
+    //           ],
+    //         ],
+    //       },
+    //     },
+    //   )
+    //   await sendTelegramMessage(chatId, message)
+    // }
     await googleSheetUpdateByPay(id, message)
   } catch (e) {
     await sendErrorMassage(e.message)
@@ -128,6 +149,7 @@ const handleCancelPaidClick = async (callbackQuery, id, messageId, user) => {
 
       await sendTelegramMessage(chatId, message)
     }
+    await googleSheetUpdateByCancelPaid(id, message)
   } catch (e) {
     await sendErrorMassage(e.message)
   }
@@ -140,11 +162,12 @@ export async function handleCallbackQuery(callbackQuery) {
     const [action, id] = data.split('_')
     const user = callbackQuery.from.username || callbackQuery.from.first_name
     const messageId = callbackQuery.message.message_id
+    const chatId = callbackQuery.from.id
 
     if (action === PAY_PART_KEY) {
       await handlePayClick(callbackQuery, id, messageId, user)
     } else if (action === CANCEL_PAY_PART_KEY) {
-      await handleCancelPayClick(callbackQuery, id, messageId, user)
+      await handleCancelPayClick(callbackQuery, id, messageId, user, chatId)
     } else if (action === PAID_PART_KEY) {
       await handlePaidClick(callbackQuery, id, messageId, user)
     } else if (action === CANCEL_PAID_PART_KEY) {

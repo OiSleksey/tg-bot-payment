@@ -36,7 +36,7 @@ export const googleSheetUpdateByPay = async (id, comment) => {
   const sheetData = await readSheet()
   setSheetData(sheetData)
   const dataSheetRequest = getSheetDataByPayClick(sheetData, id, comment)
-
+  console.log(dataSheetRequest)
   if (!dataSheetRequest) {
     throw new Error(`❌ Не найден ID ${id} в googleSheetUpdateByPay`)
   } else {
