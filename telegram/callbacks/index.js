@@ -94,7 +94,7 @@ const handlePayClick = async (callbackQuery, id, messageId, user, chatId) => {
 }
 
 const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
-  console.log(getSheetData())
+  console.log('sheetData ', getSheetData())
   const message = `❌ Отменить | (Вместо Оплатить) нажал "${user}" в ${getTimeInUkraine()}`
   try {
     for (const chatId of allowedUsers) {
