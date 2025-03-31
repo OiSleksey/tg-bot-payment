@@ -46,7 +46,10 @@ const sendErrorMassage = async (message) => {
 
 const getRedisData = async (id) => {
   const raw = await redis.lrange(`${REDIS_PAYMENT_PART_KEY}_${id}`, 0, -1)
-  return getValidateArray(raw)
+  console.log('ID ', `${REDIS_PAYMENT_PART_KEY}_${id}`)
+  console.log('raw ', raw)
+
+  const result = getValidateArray(raw)
     .map((item) => {
       try {
         return JSON.parse(item)
@@ -55,6 +58,8 @@ const getRedisData = async (id) => {
       }
     })
     .filter((item) => item)
+  console.log('raw ', result)
+  return result
 }
 
 const handlePayClick = async (callbackQuery, id, messageId, user) => {
