@@ -15,6 +15,7 @@ if (process.env.VERCEL) {
 export async function handleCallbackQuery(callbackQuery, chatId) {
   try {
     const data = callbackQuery.data
+    console.log('callbackQuery ', callbackQuery)
     const [action, id] = data.split('_')
     const user = callbackQuery.from.username || callbackQuery.from.first_name
     const messageId = callbackQuery.message.message_id

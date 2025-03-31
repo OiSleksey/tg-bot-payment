@@ -14,6 +14,7 @@ import { INLINE_KEYBOARD_KEY, TEXT_KEY } from '../../constants/index.js'
 export async function repeatSheet() {
   const sheetData = await readSheet()
   setSheetData(sheetData)
+  console.log(sheetData)
   const dataByAlert = getDataByAlertRequest(sheetData)
   if (!dataByAlert.length) {
     for (const chatId of allowedUsers) {
