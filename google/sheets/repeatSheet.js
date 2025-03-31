@@ -31,7 +31,7 @@ export async function repeatSheet() {
         })
         await delaySeconds(1)
       }
-      await delaySeconds(1)
+      // await delaySeconds(1)
     }
     await updateMultipleSpecificCells(dataByAlertSheet)
     return Promise.resolve()

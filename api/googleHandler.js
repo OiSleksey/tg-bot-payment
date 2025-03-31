@@ -14,9 +14,8 @@ export default async function googleHandler(req, res) {
     //   )
     //   await delaySeconds(1)
     // }
-
-    res.status(200).json({ message: '✅ Google trigger received!' })
     await repeatSheet()
+    res.status(200).json({ message: '✅ Google trigger received!' })
   } catch (err) {
     console.error('❌ Ошибка обработки Google запроса:', err)
     res.status(500).json({ error: 'Ошибка сервера' })
