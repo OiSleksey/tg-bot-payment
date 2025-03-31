@@ -18,6 +18,7 @@ import {
   googleSheetUpdateByPaid,
   googleSheetUpdateByPay,
 } from '../../google/sheets/telegramUpdateSheet.js'
+import { getSheetData } from '../../local/index.js'
 
 let TELEGRAM_TOKEN
 
@@ -38,6 +39,10 @@ const sendErrorMassage = async (message) => {
 
 const handlePayClick = async (callbackQuery, id, messageId, user, chatId) => {
   try {
+    console.log('id 1', id)
+    console.log('messageId 1', messageId)
+    console.log('user 1', user)
+    console.log('chatId 1', chatId)
     const message = `🟢 Оплатить | нажал "${user}" в ${getTimeInUkraine()}`
     const idPaid = PAID_PART_KEY + '_' + getValidateNumber(id)
     const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + getValidateNumber(id)
@@ -89,6 +94,7 @@ const handlePayClick = async (callbackQuery, id, messageId, user, chatId) => {
 }
 
 const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
+  console.log(getSheetData())
   const message = `❌ Отменить | (Вместо Оплатить) нажал "${user}" в ${getTimeInUkraine()}`
   try {
     for (const chatId of allowedUsers) {
