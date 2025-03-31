@@ -54,7 +54,7 @@ const getRedisData = async (id) => {
         return null
       }
     })
-    .filter((item) => item?.[CHAT_ID_KEY] && item?.[MESSAGE_ID_KEY])
+    .filter((item) => item)
 }
 
 const handlePayClick = async (callbackQuery, id, messageId, user) => {
