@@ -35,6 +35,8 @@ export const EVERY_YEAR_I2_TYPE_KEY = 'каждый год +2 дня'
 export const BY_REQUEST_TYPE_KEY = 'по запросу'
 
 export const TRUE_TYPE_KEY = 'true'
+export const CANCEL_PAY_TYPE_KEY = 'cancel_pay'
+export const CANCEL_PAID_TYPE_KEY = 'cancel_paid'
 export const FALSE_TYPE_KEY = 'false'
 
 //Update Cell keys
@@ -45,5 +47,7 @@ export const VALUES_KEY = 'values'
 export const INLINE_KEYBOARD_KEY = 'inline_keyboard'
 export const TEXT_KEY = 'text'
 export const CALLBACK_DATA_KEY = 'callback_data'
-export const PAY_PART_KEY = 'pay_'
-export const CANCEL_PART_KEY = 'cancel_'
+export const PAY_PART_KEY = 'pay'
+export const CANCEL_PAY_PART_KEY = 'cancelPay'
+export const PAID_PART_KEY = 'paid'
+export const CANCEL_PAID_PART_KEY = 'cancelPaid'

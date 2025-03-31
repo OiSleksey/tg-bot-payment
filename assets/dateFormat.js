@@ -30,6 +30,11 @@ export const getDisplayDateWithDay = (date) => {
   return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY, dddd')
 }
 
+export const getDisplayDate = (date) => {
+  if (!date) return '-'
+  return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY')
+}
+
 export const getTimeInUkraine = () => {
   return moment().tz('Europe/Kyiv').format('DD.MM.YYYY, HH:mm:ss')
 }
