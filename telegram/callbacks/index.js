@@ -39,6 +39,7 @@ const sendErrorMassage = async (message) => {
 
 const handlePayClick = async (callbackQuery, id, messageId, user, chatId) => {
   try {
+    console.log('sheetData ', getSheetData()[1])
     console.log('id 1', id)
     console.log('messageId 1', messageId)
     console.log('user 1', user)
@@ -94,7 +95,6 @@ const handlePayClick = async (callbackQuery, id, messageId, user, chatId) => {
 }
 
 const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
-  console.log('sheetData ', getSheetData())
   const message = `❌ Отменить | (Вместо Оплатить) нажал "${user}" в ${getTimeInUkraine()}`
   try {
     for (const chatId of allowedUsers) {
