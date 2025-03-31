@@ -19,8 +19,7 @@ import {
 import { redis } from '../../libs/redis.js'
 import { getValidateArray } from '../../assets/validateData.js'
 
-const setRedisData = async (data) => {
-  const redisData = getValidateArray(data)
+const setRedisData = async (redisData) => {
   for (const [key, values] of Object.entries(redisData)) {
     await redis.del(key)
     await redis.rpush(key, ...values)
@@ -64,11 +63,7 @@ export async function repeatSheet() {
       }
     }
 
-    for (const chatId of allowedUsers) {
-      await sendTelegramMessage(chatId, 'Это все проплаты на сегодня')
-    }
-
-    await setRedisData()
+    await setRedisData(redisData)
     await updateMultipleSpecificCells(dataByAlertSheet)
     return Promise.resolve()
   }
