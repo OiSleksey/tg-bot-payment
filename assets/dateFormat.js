@@ -241,6 +241,10 @@ export const getDateByUnknownFormat = (date) => {
   return parsed.isValid() ? parsed.format() : null
 }
 
+export const getNextDateFormatToLastDate = (date) => {
+  return moment(date.split(',')[0], 'DD-MM-YYYY').format('DD-MM-YYYY')
+}
+
 export const getNextPayment = (data, isRepeat = false) => {
   const payRepeat = getValidateString(data?.[PAY_REPEAT_KEY])
     .toLowerCase()

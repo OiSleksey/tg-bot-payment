@@ -22,6 +22,7 @@ import {
 import {
   getDisplayDate,
   getDisplayDateWithDay,
+  getNextDateFormatToLastDate,
   getNextPayment,
 } from '../../assets/dateFormat.js'
 import { getRangeCell } from './rangeCell.js'
@@ -152,7 +153,9 @@ export const getSheetDataByPaidClick = (sheetData, id, comment) => {
   if (findIndex !== -1) {
     const currentData = sheetData[findIndex]
     console.log('BEFORE ', currentData[LAST_DATE_PAYMENT_KEY])
-    currentData[LAST_DATE_PAYMENT_KEY] = currentData[NEXT_DATE_PAYMENT_KEY]
+    currentData[LAST_DATE_PAYMENT_KEY] = getNextDateFormatToLastDate(
+      currentData[NEXT_DATE_PAYMENT_KEY],
+    )
     console.log('AFTER ', currentData[LAST_DATE_PAYMENT_KEY])
     const {
       nextDatePayment,
