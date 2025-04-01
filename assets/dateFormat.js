@@ -14,6 +14,7 @@ import {
   EVERY_YEAR_TYPE_KEY,
   PAY_REPEAT_KEY,
   LAST_DATE_PAYMENT_KEY,
+  EVERY_6_MONTH_TYPE_KEY,
 } from '../constants/index.js'
 import { daysPayment } from '../globals/index.js'
 
@@ -95,7 +96,7 @@ const getOffsetPaymentDayByYear = (payRepeat) => {
   }
 }
 
-const getNextPaymentByMonth = ({ lastDatePayment, payRepeat, isNext }) => {
+const getNextPaymentByMonth = ({ lastDatePayment, payRepeat }) => {
   const start = moment(lastDatePayment)
   let nextDate = start.clone()
 
@@ -103,6 +104,11 @@ const getNextPaymentByMonth = ({ lastDatePayment, payRepeat, isNext }) => {
 
   if (payRepeat === EVERY_30_DAYS_TYPE_KEY) {
     nextDate = nextDate.clone().add(30, 'days').subtract(0, 'days')
+  } else if (payRepeat === EVERY_6_MONTH_TYPE_KEY) {
+    nextDate = nextDate
+      .clone()
+      .add(6, 'month')
+      .subtract(offsetPaymentDay, 'days')
   } else {
     nextDate = nextDate
       .clone()
@@ -154,6 +160,8 @@ const getIsEveryMonth = (data, payRepeat) => {
       return true
     case EVERY_MONTH_I2_TYPE_KEY:
       return true
+    case EVERY_6_MONTH_TYPE_KEY:
+      return true
     default:
       return false
   }
@@ -187,7 +195,7 @@ export const getNextDateFormatToLastDate = (date) => {
   return moment(date.split(',')[0], 'DD-MM-YYYY').format('DD-MM-YYYY')
 }
 
-export const getNextPayment = (data, isNext = false) => {
+export const getNextPayment = (data) => {
   const payRepeat = getValidateString(data?.[PAY_REPEAT_KEY])
     .toLowerCase()
     .trim()
@@ -204,13 +212,11 @@ export const getNextPayment = (data, isNext = false) => {
     nextDatePayment = getNextPaymentByMonth({
       lastDatePayment,
       payRepeat,
-      isNext,
     })
-  } else if (everyYear) {
+  } else {
     nextDatePayment = getNextPaymentByYear({
       lastDatePayment,
       payRepeat,
-      isNext,
     })
   }
 
