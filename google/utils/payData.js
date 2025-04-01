@@ -32,7 +32,7 @@ import { alertDay } from '../../globals/index.js'
 
 const getCorrectNickname = (nickname) => {
   const stringNickname = getValidateString(nickname).trim().toLowerCase()
-  if (!stringNickname.length <= 1) return 'Неизвестно'
+  if (stringNickname.length <= 1) return 'Неизвестно'
   return stringNickname.startsWith('@') ? stringNickname : '@' + stringNickname
 }
 
@@ -40,18 +40,19 @@ const getFilteredDataByPay = (data) => {
   const dataArray = getValidateArray(data)
 
   return dataArray
-    .map((item) => ({
-      ...item,
-      [NICKNAME_ANSWERABLE_KEY]: getCorrectNickname(
-        item?.[NICKNAME_ANSWERABLE_KEY],
-      ),
-    }))
+
     .filter(
       (item) =>
         getValidateString(item?.[PAY_KEY]).trim().toLowerCase() ===
           TRUE_TYPE_KEY &&
         getValidateString(item?.[LAST_DATE_PAYMENT_KEY]).trim(),
     )
+    .map((item) => ({
+      ...item,
+      [NICKNAME_ANSWERABLE_KEY]: getCorrectNickname(
+        item?.[NICKNAME_ANSWERABLE_KEY],
+      ),
+    }))
 }
 
 export const getInitialDataByAllDate = (data) => {
