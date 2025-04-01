@@ -55,7 +55,7 @@ const delRedisData = async (id) => {
 
 const handlePayClick = async (callbackQuery, id, messageId, user) => {
   try {
-    const message = `🟢 Оплатить | нажал "${user}" в ${getTimeInUkraine()}`
+    const message = `➡️ Сделать запрос | нажал "${user}" в ${getTimeInUkraine()}`
     const idPaid = PAID_PART_KEY + '_' + getValidateNumber(id)
     const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + getValidateNumber(id)
     const redisData = await getRedisData(id)
