@@ -27,6 +27,7 @@ import {
 } from '../../assets/dateFormat.js'
 import { getRangeCell } from './rangeCell.js'
 import { updateMultipleSpecificCells } from '../sheets/updateSheet.js'
+import { alertDay } from '../../globals/index.js'
 
 const getFilteredDataByPay = (data) => {
   const dataArray = getValidateArray(data)
@@ -99,7 +100,7 @@ export const getDataByAlertRequest = (data) => {
   const dataByAllDate = getDataByAllDate(data)
   return dataByAllDate.filter(
     (item) =>
-      item?.[DAYS_UNTIL_PAYMENT_KEY] <= 3 &&
+      item?.[DAYS_UNTIL_PAYMENT_KEY] <= alertDay &&
       !getIsPending(item?.[IS_PENDING_KEY]),
   )
 }
