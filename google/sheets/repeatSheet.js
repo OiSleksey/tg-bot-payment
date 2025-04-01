@@ -75,13 +75,9 @@ const sendTelegramMessageByRequest = async (dataByAlert) => {
 
 export async function repeatSheet() {
   const sheetData = await readSheet()
-  console.log('sheetData ', sheetData)
   const dataByAlert = getDataByAlertRequest(sheetData)
   const dataPending = getDataByPendingRequest(sheetData)
   const dataByPay = getDataByPayRequest(sheetData)
-
-  console.log('dataByAlert ', dataByAlert)
-  console.log('1 ', 1)
   if (!dataByAlert.length) {
     await sendTelegramMessageByPending(dataPending)
   } else {
@@ -93,7 +89,6 @@ export async function repeatSheet() {
   const dataRequestSheet = [...dataByAlertSheet, dataByPaySheet]
 
   await updateMultipleSpecificCells(dataRequestSheet)
-  return Promise.resolve()
 }
 
 // console.log('📥 Запрос от Google Apps Script:', getTimeInUkraine())
