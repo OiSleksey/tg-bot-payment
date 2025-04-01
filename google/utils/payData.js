@@ -75,11 +75,11 @@ export const getDataByAllDate = (data) => {
 
     return {
       ...item,
-      [NEXT_DATE_PAYMENT_KEY]: nextDatePayment,
-      [NEXT_DATE_REQUEST_KEY]: nextDateRequest,
-      [DAYS_UNTIL_PAYMENT_KEY]: daysUntilPayment,
-      [DAYS_UNTIL_REQUEST_KEY]: daysUntilRequest,
-      [LAST_DATE_PAYMENT_KEY]: lastDatePayment,
+      [NEXT_DATE_PAYMENT_KEY]: nextDatePayment || '',
+      [NEXT_DATE_REQUEST_KEY]: nextDateRequest || '',
+      [DAYS_UNTIL_PAYMENT_KEY]: daysUntilPayment ?? -1,
+      [DAYS_UNTIL_REQUEST_KEY]: daysUntilRequest ?? -1,
+      [LAST_DATE_PAYMENT_KEY]: lastDatePayment || '',
     }
   })
 }
