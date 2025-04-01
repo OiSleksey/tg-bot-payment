@@ -29,8 +29,9 @@ const setRedisData = async (redisData) => {
 
 export async function repeatSheet() {
   const sheetData = await readSheet()
-
+  console.log('sheetData ', sheetData)
   const dataByAlert = getDataByAlertRequest(sheetData)
+  console.log('dataByAlert ', dataByAlert)
   if (!dataByAlert.length) {
     for (const chatId of allowedUsers) {
       await sendTelegramMessage(chatId, `Ближайшие 3 дня нет проплат`)
