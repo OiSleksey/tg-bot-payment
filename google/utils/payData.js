@@ -31,7 +31,7 @@ import { updateMultipleSpecificCells } from '../sheets/updateSheet.js'
 import { alertDay } from '../../globals/index.js'
 
 const getCorrectNickname = (nickname) => {
-  const stringNickname = getValidateString(nickname).trim().toLowerCase()
+  const stringNickname = getValidateString(nickname).trim()
   if (stringNickname.length <= 1) return 'Неизвестно'
   return stringNickname.startsWith('@') ? stringNickname : '@' + stringNickname
 }
