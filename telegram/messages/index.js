@@ -32,7 +32,7 @@ export const getDataMessagesPending = (data) => {
       [TEXT_KEY]: text,
       [INLINE_KEYBOARD_KEY]: [
         [
-          { [TEXT_KEY]: '🟢 Оплатить', [CALLBACK_DATA_KEY]: idPay },
+          { [TEXT_KEY]: '➡️ Сделать запрос', [CALLBACK_DATA_KEY]: idPay },
           { [TEXT_KEY]: '❌ Отменить', [CALLBACK_DATA_KEY]: idCancelPay },
         ],
       ],

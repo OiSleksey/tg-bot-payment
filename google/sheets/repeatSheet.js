@@ -34,7 +34,6 @@ export async function repeatSheet() {
   if (!dataByAlert.length) {
     for (const chatId of allowedUsers) {
       await sendTelegramMessage(chatId, `Ближайшие 3 дня нет проплат`)
-      // await delaySeconds(1)
     }
     return Promise.resolve()
   } else {

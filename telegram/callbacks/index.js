@@ -185,7 +185,7 @@ export async function handleCallbackQuery(callbackQuery) {
     const [action, id] = data.split('_')
     const user = callbackQuery.from.username || callbackQuery.from.first_name
     const messageId = callbackQuery.message.message_id
-    const chatId = callbackQuery.message.chat.id
+    // const chatId = callbackQuery.message.chat.id
 
     if (action === PAY_PART_KEY) {
       await handlePayClick(callbackQuery, id, messageId, user)

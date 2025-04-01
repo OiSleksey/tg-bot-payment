@@ -1,6 +1,7 @@
 export * from './utils/sendTelegram.js'
 export * from './commands/initial.js'
 export * from './commands/start.js'
+export * from './commands/check.js'
 export * from './callbacks/index.js'
 export * from './utils/checkUser.js'
 export * from './messages/index.js'
