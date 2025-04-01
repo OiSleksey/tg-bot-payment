@@ -34,7 +34,7 @@ import {
 
 export const googleSheetUpdateByPay = async (id, comment) => {
   const sheetData = await readSheet()
-  setSheetData(sheetData)
+
   const dataSheetRequest = getSheetDataByPayClick(sheetData, id, comment)
   console.log(dataSheetRequest)
   if (!dataSheetRequest) {
@@ -46,7 +46,7 @@ export const googleSheetUpdateByPay = async (id, comment) => {
 
 export const googleSheetUpdateByCancelPay = async (id, comment) => {
   const sheetData = await readSheet()
-  setSheetData(sheetData)
+
   const dataSheetRequest = getSheetDataByCancelPayClick(sheetData, id, comment)
   if (!dataSheetRequest) {
     throw new Error(`❌ Не найден ID ${id} в googleSheetUpdateByCancelPay`)
@@ -57,7 +57,6 @@ export const googleSheetUpdateByCancelPay = async (id, comment) => {
 
 export const googleSheetUpdateByPaid = async (id, comment) => {
   const sheetData = await readSheet()
-  setSheetData(sheetData)
   const dataSheetRequest = getSheetDataByPaidClick(sheetData, id, comment)
   if (!dataSheetRequest) {
     throw new Error(`❌ Не найден ID ${id} в googleSheetUpdateByCancelPay`)
@@ -68,7 +67,7 @@ export const googleSheetUpdateByPaid = async (id, comment) => {
 
 export const googleSheetUpdateByCancelPaid = async (id, comment) => {
   const sheetData = await readSheet()
-  setSheetData(sheetData)
+
   const dataSheetRequest = getSheetDataByCancelPaidClick(sheetData, id, comment)
   if (!dataSheetRequest) {
     throw new Error(`❌ Не найден ID ${id} в googleSheetUpdateByCancelPay`)

@@ -151,7 +151,9 @@ export const getSheetDataByPaidClick = (sheetData, id, comment) => {
   const findIndex = getFindIndexClick(sheetData, id)
   if (findIndex !== -1) {
     const currentData = sheetData[findIndex]
+    console.log('BEFORE ', currentData[LAST_DATE_PAYMENT_KEY])
     currentData[LAST_DATE_PAYMENT_KEY] = currentData[NEXT_DATE_PAYMENT_KEY]
+    console.log('AFTER ', currentData[LAST_DATE_PAYMENT_KEY])
     const {
       nextDatePayment,
       daysUntilPayment,
@@ -159,6 +161,13 @@ export const getSheetDataByPaidClick = (sheetData, id, comment) => {
       nextDateRequest,
       lastDatePayment,
     } = getNextPayment(currentData, true)
+    console.log(
+      nextDatePayment,
+      daysUntilPayment,
+      daysUntilRequest,
+      nextDateRequest,
+      lastDatePayment,
+    )
     return [
       {
         [RANGE_KEY]: getRangeCell(currentData, COMMENTS_KEY),
