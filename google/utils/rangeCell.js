@@ -67,4 +67,31 @@ export const getDataSheetPending = (data) => {
   }))
 }
 
+export const getDataSheetPay = (data) => {
+  const nextDatePaymentArray = data.map((item) => ({
+    [RANGE_KEY]: getRangeCell(item, NEXT_DATE_PAYMENT_KEY),
+    [VALUES_KEY]: [[getDisplayDateWithDay(item?.[NEXT_DATE_PAYMENT_KEY])]],
+  }))
+  const nextDateRequestArray = data.map((item) => ({
+    [RANGE_KEY]: getRangeCell(item, NEXT_DATE_REQUEST_KEY),
+    [VALUES_KEY]: [[getDisplayDateWithDay(item?.[NEXT_DATE_REQUEST_KEY])]],
+  }))
+  const daysUntilPaymentArray = data.map((item) => ({
+    [RANGE_KEY]: getRangeCell(item, DAYS_UNTIL_PAYMENT_KEY),
+    [VALUES_KEY]: [[getValidateNumber(item?.[DAYS_UNTIL_PAYMENT_KEY])]],
+  }))
+  const daysUntilRequestArray = data.map((item) => ({
+    [RANGE_KEY]: getRangeCell(item, DAYS_UNTIL_REQUEST_KEY),
+    [VALUES_KEY]: [[getValidateNumber(item?.[DAYS_UNTIL_REQUEST_KEY])]],
+  }))
+  // console.log(daysUntilPaymentArray.map((item) => item[VALUES_KEY]))
+  const fullData = [
+    ...nextDatePaymentArray,
+    ...nextDateRequestArray,
+    ...daysUntilPaymentArray,
+    ...daysUntilRequestArray,
+  ]
+  return getFilterDataByRange(fullData)
+}
+
 // export const get

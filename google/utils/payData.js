@@ -88,9 +88,16 @@ const getLowerCase = (value) => {
   return getValidateString(value).trim().toLowerCase()
 }
 
-const getIsPending = (pendingStr) => {
+const getIsPendingOrCancel = (pendingStr) => {
   const pendingLower = getLowerCase(pendingStr)
   if (pendingLower === getLowerCase(TRUE_TYPE_KEY)) return true
+  if (pendingLower === getLowerCase(CANCEL_PAY_TYPE_KEY)) return true
+  if (pendingLower === getLowerCase(CANCEL_PAID_TYPE_KEY)) return true
+  return false
+}
+
+const getIsCancel = (pendingStr) => {
+  const pendingLower = getLowerCase(pendingStr)
   if (pendingLower === getLowerCase(CANCEL_PAY_TYPE_KEY)) return true
   if (pendingLower === getLowerCase(CANCEL_PAID_TYPE_KEY)) return true
   return false
@@ -101,7 +108,20 @@ export const getDataByAlertRequest = (data) => {
   return dataByAllDate.filter(
     (item) =>
       item?.[DAYS_UNTIL_PAYMENT_KEY] <= alertDay &&
-      !getIsPending(item?.[IS_PENDING_KEY]),
+      !getIsPendingOrCancel(item?.[IS_PENDING_KEY]),
+  )
+}
+
+export const getDataByPayRequest = (data) => {
+  const dataByAllDate = getDataByAllDate(data)
+  return dataByAllDate.filter((item) => !getIsCancel(item?.[IS_PENDING_KEY]))
+}
+
+export const getDataByPendingRequest = (data) => {
+  const dataByAllDate = getDataByAllDate(data)
+  return dataByAllDate.filter(
+    (item) =>
+      getLowerCase(item?.[IS_PENDING_KEY]) === getLowerCase(TRUE_TYPE_KEY),
   )
 }
 
