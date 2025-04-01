@@ -53,6 +53,10 @@ const getRedisData = async (id) => {
   return result
 }
 
+const delRedisData = async (id) => {
+  await redis.del(`${REDIS_PAYMENT_PART_KEY}_${id}`)
+}
+
 const handlePayClick = async (callbackQuery, id, messageId, user) => {
   try {
     const message = `🟢 Оплатить | нажал "${user}" в ${getTimeInUkraine()}`
@@ -103,6 +107,7 @@ const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
       )
       await sendTelegramMessage(item[CHAT_ID_KEY], message)
     }
+    await delRedisData(id)
     await googleSheetUpdateByCancelPay(id, message)
   } catch (e) {
     await sendErrorMassage(e.message)
@@ -110,21 +115,23 @@ const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
 }
 
 const handlePaidClick = async (callbackQuery, id, messageId, user) => {
+  const message = `✅ Оплачено | нажал "${user}" в ${getTimeInUkraine()}`
+  const redisData = await getRedisData(id)
   try {
-    const message = `✅ Оплачено | нажал "${user}" в ${getTimeInUkraine()}`
-    for (const chatId of allowedUsers) {
+    for (const item of redisData) {
       await axios.post(
         `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
         {
-          chat_id: chatId,
-          message_id: messageId,
+          chat_id: item[CHAT_ID_KEY],
+          message_id: item[MESSAGE_ID_KEY],
           reply_markup: {
             [INLINE_KEYBOARD_KEY]: [],
           },
         },
       )
-      await sendTelegramMessage(chatId, message)
+      await sendTelegramMessage(item[CHAT_ID_KEY], message)
     }
+    await delRedisData(id)
     await googleSheetUpdateByPaid(id, message)
   } catch (e) {
     await sendErrorMassage(e.message)
@@ -132,22 +139,23 @@ const handlePaidClick = async (callbackQuery, id, messageId, user) => {
 }
 
 const handleCancelPaidClick = async (callbackQuery, id, messageId, user) => {
+  const message = `❌ Отменить | (Вместо Оплачено) нажал "${user}" в ${getTimeInUkraine()}`
+  const redisData = await getRedisData(id)
   try {
-    const message = `❌ Отменить | (Вместо Оплачено) нажал "${user}" в ${getTimeInUkraine()}`
-    for (const chatId of allowedUsers) {
-      await axios.post(
+    for (const chatId of redisData) {
+      await item.post(
         `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
         {
-          chat_id: chatId,
-          message_id: messageId,
+          chat_id: item[CHAT_ID_KEY],
+          message_id: item[MESSAGE_ID_KEY],
           reply_markup: {
             [INLINE_KEYBOARD_KEY]: [],
           },
         },
       )
-
-      await sendTelegramMessage(chatId, message)
+      await sendTelegramMessage(item[CHAT_ID_KEY], message)
     }
+    await delRedisData(id)
     await googleSheetUpdateByCancelPaid(id, message)
   } catch (e) {
     await sendErrorMassage(e.message)
