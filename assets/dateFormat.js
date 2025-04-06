@@ -27,12 +27,12 @@ import {
 } from './validateData.js'
 
 export const getDisplayDateWithDay = (date) => {
-  if (!date) return '-'
+  if (!date) return ''
   return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY, dddd')
 }
 
 export const getDisplayDate = (date) => {
-  if (!date) return '-'
+  if (!date) return ''
   return moment(date).tz('Europe/Kyiv').format('DD-MM-YYYY')
 }
 
@@ -47,17 +47,37 @@ export const delaySeconds = (second) => {
 }
 
 const getClosestValidDate = (dateStr) => {
-  let date = moment(dateStr)
+  let date = moment(dateStr).tz('Europe/Kyiv')
   while (!daysPayment.includes(date.day())) {
     date = date.subtract(1, 'day')
   }
   return date.format()
 }
 
-const getDaysFromToday = (dateStr) => {
-  const target = moment(dateStr)
-  const today = moment()
+export const getDaysFromToday = (dateStr) => {
+  const target = moment(dateStr).tz('Europe/Kyiv').startOf('day')
+  const today = moment().tz('Europe/Kyiv').startOf('day')
   return target.diff(today, 'days')
+}
+
+export const getDaysRequestFromToday = (dateStr) => {
+  const target = moment(dateStr).tz('Europe/Kyiv').startOf('day')
+  const today = moment().tz('Europe/Kyiv').startOf('day')
+  const diffDays = target.diff(today, 'days')
+  let count = 0
+
+  const step = diffDays >= 0 ? 1 : -1
+
+  for (let i = 1; i < Math.abs(diffDays); i++) {
+    const current = moment(today)
+      .tz('Europe/Kyiv')
+      .add(i * step, 'days')
+    const weekday = current.isoWeekday() // Пн=1, Вс=7
+    if (daysPayment.includes(weekday)) {
+      count += step
+    }
+  }
+  return count
 }
 
 const getOffsetPaymentDayByMonth = (payRepeat) => {
@@ -186,7 +206,7 @@ export const getDateByUnknownFormat = (date) => {
     'YYYY/MM/DD',
   ]
 
-  const parsed = moment(date, formats, true)
+  const parsed = moment.tz(date, formats, true, 'Europe/Kyiv')
 
   return parsed.isValid() ? parsed.format() : null
 }
@@ -222,7 +242,7 @@ export const getNextPayment = (data) => {
 
   const daysUntilPayment = getDaysFromToday(nextDatePayment)
   const nextDateRequest = getClosestValidDate(nextDatePayment)
-  const daysUntilRequest = getDaysFromToday(nextDateRequest)
+  const daysUntilRequest = getDaysRequestFromToday(nextDateRequest)
 
   return {
     lastDatePayment,
@@ -231,19 +251,4 @@ export const getNextPayment = (data) => {
     daysUntilPayment,
     daysUntilRequest,
   }
-
-  //
-  // if (everyMonth) {
-  //   return getNextPaymentByMonth({
-  //     lastDatePayment,
-  //     payRepeat,
-  //     isNext,
-  //   })
-  // } else {
-  //   return getNextPaymentByYear({
-  //     lastDatePayment,
-  //     payRepeat,
-  //     isNext,
-  //   })
-  // }
 }

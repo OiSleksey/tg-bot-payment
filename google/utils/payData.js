@@ -44,7 +44,7 @@ const getFilteredDataByPay = (data) => {
     .filter(
       (item) =>
         getValidateString(item?.[PAY_KEY]).trim().toLowerCase() ===
-          TRUE_TYPE_KEY &&
+        TRUE_TYPE_KEY &&
         getValidateString(item?.[LAST_DATE_PAYMENT_KEY]).trim(),
     )
     .map((item) => ({

@@ -4,7 +4,6 @@ import {
   getDataSheetPay,
   readSheet,
 } from '../index.js'
-import { setSheetData } from '../../local/index.js'
 import { getDataByAlertRequest } from '../utils/payData.js'
 import { getDataSheetPending } from '../utils/rangeCell.js'
 import { updateMultipleSpecificCells } from './updateSheet.js'
@@ -19,18 +18,12 @@ import {
   ID_KEY,
   INLINE_KEYBOARD_KEY,
   MESSAGE_ID_KEY,
+  PAY_PART_KEY,
   REDIS_PAYMENT_PART_KEY,
   TEXT_KEY,
+  TYPE_BUTTONS_KEY,
 } from '../../constants/index.js'
-import { redis } from '../../libs/redis.js'
-import { getValidateArray } from '../../assets/validateData.js'
-
-const setRedisData = async (redisData) => {
-  for (const [key, values] of Object.entries(redisData)) {
-    await redis.del(key)
-    await redis.rpush(key, ...values)
-  }
-}
+import { setRedisData } from '../../libs/redis.js'
 
 const sendTelegramMessageByPending = async (dataPending) => {
   let message = ''
@@ -63,6 +56,7 @@ const sendTelegramMessageByRequest = async (dataByAlert) => {
           JSON.stringify({
             [CHAT_ID_KEY]: chatId,
             [MESSAGE_ID_KEY]: messageId,
+            [TYPE_BUTTONS_KEY]: PAY_PART_KEY,
           }),
         )
         await delaySeconds(0.1)
@@ -83,25 +77,9 @@ export async function repeatSheet() {
   } else {
     await sendTelegramMessageByRequest(dataByAlert)
   }
-
   const dataByAlertSheet = getDataSheetPending(dataByAlert)
   const dataByPaySheet = getDataSheetPay(dataByPay)
   const dataRequestSheet = [...dataByAlertSheet, dataByPaySheet]
 
   await updateMultipleSpecificCells(dataRequestSheet)
 }
-
-// console.log('📥 Запрос от Google Apps Script:', getTimeInUkraine())
-// try {
-//     for (const chatId of allowedUsers) {
-//         await sendTelegramMessage(
-//             chatId,
-//             `📬 Получен запрос с Google Apps Script в ${getTimeInUkraine()}`,
-//         )
-//         await delaySeconds(1)
-//     }
-//     res.status(200).json({ message: '✅ Google trigger received!' })
-// } catch (err) {
-//     console.error('❌ Ошибка обработки Google запроса:', err)
-//     res.status(500).json({ error: 'Ошибка сервера' })
-// }

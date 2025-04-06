@@ -55,6 +55,7 @@ export const PAID_PART_KEY = 'paid'
 export const CANCEL_PAID_PART_KEY = 'cancelPaid'
 export const MESSAGE_ID_KEY = 'messageId'
 export const CHAT_ID_KEY = 'chatId'
+export const TYPE_BUTTONS_KEY = 'type'
 
 //Redis Keys
 export const REDIS_PAYMENT_PART_KEY = 'payment'
