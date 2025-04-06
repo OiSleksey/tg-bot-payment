@@ -93,23 +93,18 @@ const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
 const handlePaidClick = async (callbackQuery, id, messageId, user) => {
   const message = `✅ Оплачено | нажал "${user}" в ${getTimeInUkraine()}`
   const redisData = await getRedisData(id)
-  console.log('redisData ', redisData)
   try {
     for (const item of redisData) {
       await editMessageReplyMarkup(item, null)
-      console.log('editMessageReplyMarkup ')
       await sendTelegramMessage(
         item[CHAT_ID_KEY],
         message,
         null,
         item[MESSAGE_ID_KEY],
       )
-      console.log('sendTelegramMessage ')
     }
     await delRedisData(id)
-    console.log('delRedisData ')
     await googleSheetUpdateByPaid(id, message)
-    console.log('googleSheetUpdateByPaid ')
   } catch (e) {
     await sendErrorMassage(e.message)
   }
