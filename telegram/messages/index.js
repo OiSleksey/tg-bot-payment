@@ -1,5 +1,6 @@
 import {
   CALLBACK_DATA_KEY,
+  CANCEL_PAID_PART_KEY,
   CANCEL_PAY_PART_KEY,
   CHAT_ID_KEY,
   COST_KEY,
@@ -12,6 +13,7 @@ import {
   NAME_KEY,
   NEXT_DATE_PAYMENT_KEY,
   NICKNAME_ANSWERABLE_KEY,
+  PAID_PART_KEY,
   PAY_PART_KEY,
   TEXT_KEY,
 } from '../../constants/index.js'
@@ -38,8 +40,8 @@ export const getDataMessagesPending = (data) => {
 }
 
 export const getDataMessagePay = (item, id) => {
-  const idPaid = PAY_PART_KEY + '_' + id
-  const idCancelPaid = CANCEL_PAY_PART_KEY + '_' + id
+  const idPaid = PAID_PART_KEY + '_' + id
+  const idCancelPaid = CANCEL_PAID_PART_KEY + '_' + id
 
   return {
     chat_id: item[CHAT_ID_KEY],
