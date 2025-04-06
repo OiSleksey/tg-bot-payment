@@ -40,10 +40,11 @@ const sendErrorMassage = async (message) => {
   }
 }
 
-const editMessageReplyMarkup = async (item, id, isEmpty = true) => {
-  const data = isEmpty
-    ? { ...getDataMessageEmptyButtons(item) }
-    : { ...getDataMessagePay(item, id) }
+const editMessageReplyMarkup = async (item, id) => {
+  const data = id
+    ? { ...getDataMessagePay(item, id) }
+    : { ...getDataMessageEmptyButtons(item) }
+
   await axios.post(
     `https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageReplyMarkup`,
     { ...data },
@@ -55,7 +56,7 @@ const handlePayClick = async (callbackQuery, id, messageId, user) => {
     const message = `➡️ Сделать запрос | нажал "${user}" в ${getTimeInUkraine()}`
     const redisData = await getRedisData(id)
     for (const item of redisData) {
-      await editMessageReplyMarkup(item, id, false)
+      await editMessageReplyMarkup(item, id)
       await sendTelegramMessage(
         item[CHAT_ID_KEY],
         message,
@@ -74,7 +75,7 @@ const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
   const redisData = await getRedisData(id)
   try {
     for (const item of redisData) {
-      await editMessageReplyMarkup(item, null, true)
+      await editMessageReplyMarkup(item, null)
       await sendTelegramMessage(
         item[CHAT_ID_KEY],
         message,
@@ -92,18 +93,23 @@ const handleCancelPayClick = async (callbackQuery, id, messageId, user) => {
 const handlePaidClick = async (callbackQuery, id, messageId, user) => {
   const message = `✅ Оплачено | нажал "${user}" в ${getTimeInUkraine()}`
   const redisData = await getRedisData(id)
+  console.log('redisData ', redisData)
   try {
     for (const item of redisData) {
-      await editMessageReplyMarkup(item, null, true)
+      await editMessageReplyMarkup(item, null)
+      console.log('editMessageReplyMarkup ')
       await sendTelegramMessage(
         item[CHAT_ID_KEY],
         message,
         null,
         item[MESSAGE_ID_KEY],
       )
+      console.log('sendTelegramMessage ')
     }
     await delRedisData(id)
+    console.log('delRedisData ')
     await googleSheetUpdateByPaid(id, message)
+    console.log('googleSheetUpdateByPaid ')
   } catch (e) {
     await sendErrorMassage(e.message)
   }
@@ -114,7 +120,7 @@ const handleCancelPaidClick = async (callbackQuery, id, messageId, user) => {
   const redisData = await getRedisData(id)
   try {
     for (const item of redisData) {
-      await editMessageReplyMarkup(item, null, true)
+      await editMessageReplyMarkup(item, null)
       await sendTelegramMessage(
         item[CHAT_ID_KEY],
         message,

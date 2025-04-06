@@ -20,24 +20,10 @@ export const redis = new Redis({
   token: UPSTASH_REDIS_REST_TOKEN,
 })
 
-
 export const setRedisData = async (redisData) => {
   for (const [key, values] of Object.entries(redisData)) {
     await redis.del(key)
     await redis.rpush(key, ...values)
-  }
-}
-
-export const setRedisDataByEdit = async (redisData, id, type) => {
-  if(type && id) {
-    const key = `${REDIS_PAYMENT_PART_KEY}_${id}`
-    for (const values of redisData) {
-      await redis.del(key)
-      const newValues = values.map(item => ({...item, [TYPE_BUTTONS_KEY]: type}))
-      await redis.rpush(key, ...newValues)
-    }
-  } else {
-    console.error(`Not found id:${id} or type:${type} in "setRedisDataByEdit"`)
   }
 }
 
@@ -50,3 +36,18 @@ export const delRedisData = async (id) => {
   await redis.del(`${REDIS_PAYMENT_PART_KEY}_${id}`)
 }
 
+export const setRedisDataByEdit = async (redisData, id, type) => {
+  if (type && id) {
+    const key = `${REDIS_PAYMENT_PART_KEY}_${id}`
+    for (const values of redisData) {
+      await redis.del(key)
+      const newValues = values.map((item) => ({
+        ...item,
+        [TYPE_BUTTONS_KEY]: type,
+      }))
+      await redis.rpush(key, ...newValues)
+    }
+  } else {
+    console.error(`Not found id:${id} or type:${type} in "setRedisDataByEdit"`)
+  }
+}

@@ -56,7 +56,6 @@ const sendTelegramMessageByRequest = async (dataByAlert) => {
           JSON.stringify({
             [CHAT_ID_KEY]: chatId,
             [MESSAGE_ID_KEY]: messageId,
-            [TYPE_BUTTONS_KEY]: PAY_PART_KEY,
           }),
         )
         await delaySeconds(0.1)
